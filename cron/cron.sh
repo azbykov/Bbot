@@ -22,7 +22,7 @@ NODE_ARGS=1
 # 0 0 1 1 * echo "С новым годом!"
 # 15 10,13 * * 1,4 echo "Эта надпись выводится в понедельник и четверг в 10:15 и 13:15"
 # 0-59 * * * * echo "Выполняется ежеминутно"
-* 15 * * * NODE_CONFIG_DIR=$PATH/config /usr/bin/node $PATH/bot/daily-15.js
+0 15 * * * NODE_CONFIG_DIR=$PATH/config /usr/bin/node $PATH/bot/daily-15.js
 #* * * * * echo $PATH/bot/daily-15.js  >> /tmp/cron
 # 0-59/2 * * * * echo "Выполняется по четным минутам"
 # 1-59/2 * * * * echo "Выполняется по нечетным минутам"
