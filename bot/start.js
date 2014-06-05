@@ -5,12 +5,15 @@
 
 //var express = require('express');
 //var http = require('http');
-var log = require('../lib/log')(module);
+var log = require('../lib/log')('start');
 //var config = require('config').bot;
-var index = require('./actions/index');
+//var sendRoster = require('./tasks/sendRoster');
+var buildings = require('./tasks/buildings');
 
 //var app = express();
-index.start();
+//sendRoster.start();
+
+buildings.start();
 
 
 // all environments

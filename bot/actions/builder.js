@@ -1,4 +1,4 @@
-var log = require('../../lib/log')(module);
+var log = require('../../lib/log')('action_builder');
 var request = require('request');
 var config = require('config').bot;
 var Vow = require('vow');
