@@ -8,18 +8,18 @@ butsa bot
 
 
 ## Установка
-``bash
+``
 git clone git@github.com:azbykov/Bbot.git bbot
 ``
 
 ## Запуск
-``bash
+``
 node bot/daily-15
 ``
 
 
 ## CRON
-``bash
+``
 crontab cron/cron.sh
 ``
 
