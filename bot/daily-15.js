@@ -12,6 +12,6 @@ authentication
 	.then(goods)
 	.then(buildings)
 	.fail(function(error) {
-		log.error('error: ', error.message)
+		log.error('Error: ', error.message)
 	})
 ;

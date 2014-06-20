@@ -8,8 +8,6 @@ var params = _.defaults(config.buildings, {
 	step: 1,
 	type: 'team/buildings',
 	firstpage: '/xml/team/buildings.php?act=repairall',
-//	Price: 'На ремонт всех обьектов потребуется 1568000 гольденов',
-//	act: 'repairall',
 	act: 'repairall2'
 });
 
@@ -23,26 +21,27 @@ var buildings = Vow.promise();
 
 var start = function() {
 	var request = global.butsaRequest;
-	log.info('start repair buildings');
+	log.debug('Start repair buildings');
 	request.post(requestParams, function(error, res, body) {
 		if (error) {
-			log.error('error request', error.message);
+			log.error('Eror request', error.message);
 			buildings.reject(error);
 		}
 
 		if (res.headers && res.headers.location) {
-			log.info('check status');
+			log.debug('Check status');
 			var uri = config.path.protocol + config.path.domain + res.headers.location;
 			request.get(uri, function(err, res, body) {
 				var $ = cheerio.load(body);
-				var label = $('#mainarea_rigth table td').first().text();
-				log.info('status: ' + label);
+				var label = $('#mainarea_rigth table td table').first().text();
+				log.info('Status: ' + label);
 				buildings.fulfill(label);
 			});
 		} else {
 			var $ = cheerio.load(body);
 			var label = $('#mainarea_rigth table font').text();
-			log.error('Error repair all buildings with params:\n', params, '\n Result message:', label);
+			log.error('Error repair all buildings. Result message:', label);
+			log.debug('Error! ' + label +'. with params', params);
 			buildings.fulfill(label);
 		}
 	});

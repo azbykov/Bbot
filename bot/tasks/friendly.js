@@ -24,26 +24,27 @@ var friendlyPromise = Vow.promise();
 
 var start = function() {
 	var request = global.butsaRequest;
-	log.info('start friendly');
+	log.debug('Start friendly');
 	request.post(requestParams, function(error, res, body) {
 		if (error) {
-			log.error('error request', error.message);
+			log.error('Error request', error.message);
 			friendlyPromise.reject(error);
 		}
 
 		if (res.headers && res.headers.location) {
-			log.info('check status');
+			log.debug('Check status');
 			var uri = config.path.protocol + config.path.domain + res.headers.location;
 			request.get(uri, function(err, res, body) {
 				var $ = cheerio.load(body);
-				var label = $('#mainarea_rigth table td').first().text();
-				log.info('status: ' + label);
+				var label = $('#mainarea_rigth table td table').first().text();
+				log.info('Status: ' + label);
 				friendlyPromise.fulfill(label);
 			})
 		} else {
 			var $ = cheerio.load(body);
 			var label = $('#mainarea_rigth table font').text();
-			log.error('Error post friendly with params:\n', params, '\n Result message:', label);
+			log.error('Error post friendly message:', label);
+			log.debug('Error! ' + label +'. with params', params);
 			friendlyPromise.fulfill(label);
 		}
 	});

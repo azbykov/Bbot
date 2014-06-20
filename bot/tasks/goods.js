@@ -8,7 +8,6 @@ var params = _.defaults(config.goods, {
 	step: 1,
 	type: 'finance/shop',
 	firstpage: '/xml/finance/shop.php?type=finance/shop&act=buy2',
-	Amount: 300000,
 	act: 'buy'
 });
 
@@ -21,7 +20,7 @@ var goodsPromise = Vow.promise();
 
 var start = function() {
 	var request = global.butsaRequest;
-	log.info('start buy goods');
+	log.debug('Start buy goods');
 	var currentGoods = Vow.promise();
 	request.get(requestParams, function(error, res, body) {
 		if (error) {
@@ -43,29 +42,30 @@ var start = function() {
 			requestParams.form.Amount = (maxGoods - currentGoods);
 			request.post(requestParams, function(error, res, body) {
 				if (error) {
-					log.error('error request', error.message);
+					log.error('Error request', error.message);
 					goodsPromise.reject(error);
 				}
 
 				if (res.headers && res.headers.location) {
-					log.info('check status');
+					log.debug('Check status');
 					var uri = config.path.protocol + config.path.domain + res.headers.location;
 					request.get(uri, function(err, res, body) {
 						var $ = cheerio.load(body);
-						var label = $('#mainarea_rigth table td').first().text();
-						log.info('status: ' + label);
+						var label = $('#mainarea_rigth table td table').first().text();
+						log.info('Status: ' + label + '. Товара на складе ' + requestParams.form.Amount);
 						goodsPromise.fulfill(label);
 					});
 				} else {
 					var $ = cheerio.load(body);
 					var label = $('#mainarea_rigth table font').text();
-					log.error('Error post buy goods with params:\n', params, '\n Result message:', label);
+					log.error('Error post buy goods message:' + label);
+					log.debug('Error! ' + label +'. with params', params);
 					goodsPromise.fulfill(label);
 				}
 			});
 		} else {
 			var label = 'Товара на складе уже закупленно ' + currentGoods;
-			log.info(label);
+			log.warn(label);
 			goodsPromise.fulfill(label);
 		}
 	});
