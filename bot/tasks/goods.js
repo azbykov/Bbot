@@ -33,7 +33,7 @@ var start = function() {
 	});
 
 	currentGoods.then(function(currentGoods) {
-		var maxGoods = config.goods.goods * config.goods.games
+		var maxGoods = config.goods.goods * config.goods.games;
 		if (currentGoods < maxGoods) {
 			requestParams = {
 				uri: requestParams.uri + config.path.goods,
@@ -52,7 +52,8 @@ var start = function() {
 					request.get(uri, function(err, res, body) {
 						var $ = cheerio.load(body);
 						var label = $('#mainarea_rigth table td table').first().text();
-						log.info('Status: ' + label + '. Товара на складе ' + requestParams.form.Amount);
+						log.info('Status: ' + label + '(' + currentGoods + ')' + '. Товара на складе '
+								+ (requestParams.form.Amount + currentGoods));
 						goodsPromise.fulfill(label);
 					});
 				} else {
