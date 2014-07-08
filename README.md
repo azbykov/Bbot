@@ -12,6 +12,26 @@ butsa bot
 git clone git@github.com:azbykov/Bbot.git bbot
 ``
 
+## Настройка
+Указать в  файле `config/default,js`
+
+```js
+bot: {
+	auth: {
+		login: LOGIN,
+		password: PASSWORD
+	},
+	mail: {
+		service: MAIL_SERVER	// например 'mail.ru',
+		auth: {
+			user: LOGIN,
+			pass: PASSWORD
+		}
+	},
+}
+```
+
+
 ## Запуск
 ``
 node bot/daily-15
@@ -35,7 +55,7 @@ crontab cron/cron.sh
 Ремонт зданий `bot/tasks/buildings.js`
 
 
-## Версии
+## Road map
 ### v0.3.0
 email оповещение о статусе текущих задач
 ### v0.3.1
