@@ -4,19 +4,11 @@ var _ = require('lodash');
 var cheerio = require('cheerio');
 var Vow = require('vow');
 
-var params = _.defaults(config.friendly, {
-	step: 1,
-	type: 'office/organizer',
-	act: 'friendly',
-	Type: 0,
-	minvr: 1, 	// Минимальный ЗР
-	minp11: 1, 	// Минимальная средняя С11
-	maxp11: 200 // Максимальная средняя С11
-});
+var params = _.defaults(config.friendly.params, {});
 
 
 var requestParams = {
-	uri: config.path.protocol + config.path.domain + config.path.friendly,
+	uri: config.path.host + config.path.friendly,
 	form: params
 };
 
@@ -37,14 +29,19 @@ var start = function() {
 			request.get(uri, function(err, res, body) {
 				var $ = cheerio.load(body);
 				var label = $('#mainarea_rigth table td table').first().text();
-				log.info('Status: ' + label);
+				log.info(label);
 				friendlyPromise.fulfill(label);
 			})
 		} else {
 			var $ = cheerio.load(body);
 			var label = $('#mainarea_rigth table font').text();
-			log.error('Error post friendly message:', label);
-			log.debug('Error! ' + label +'. with params', params);
+			if (config.friendly.alreadyDone === label) {
+
+				log.info(label);
+			} else {
+				log.error('Error repair all buildings. Result message:', label);
+				log.debug('Error! ' + label +'. with params', requestParams.form);
+			}
 			friendlyPromise.fulfill(label);
 		}
 	});

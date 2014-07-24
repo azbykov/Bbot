@@ -4,16 +4,11 @@ var _ = require('lodash');
 var cheerio = require('cheerio');
 var Vow = require('vow');
 
-var params = _.defaults(config.goods, {
-	step: 1,
-	type: 'finance/shop',
-	firstpage: '/xml/finance/shop.php?type=finance/shop&act=buy2',
-	act: 'buy'
-});
+var params = _.defaults(config.goods.params, {});
 
 
 var requestParams = {
-	uri: config.path.protocol + config.path.domain
+	uri: config.path.host
 };
 
 var goodsPromise = Vow.promise();
@@ -52,21 +47,21 @@ var start = function() {
 					request.get(uri, function(err, res, body) {
 						var $ = cheerio.load(body);
 						var label = $('#mainarea_rigth table td table').first().text();
-						log.info('Status: ' + label + '(' + currentGoods + ')' + '. Товара на складе '
-								+ (requestParams.form.Amount + currentGoods));
+						log.info(label + '(' + currentGoods + ' ед.)' + '. Товара на складе '
+								+ (requestParams.form.Amount + currentGoods)) + ' ед.';
 						goodsPromise.fulfill(label);
 					});
 				} else {
 					var $ = cheerio.load(body);
 					var label = $('#mainarea_rigth table font').text();
 					log.error('Error post buy goods message:' + label);
-					log.debug('Error! ' + label +'. with params', params);
+					log.debug('Error! ' + label +'. with params', requestParams.form);
 					goodsPromise.fulfill(label);
 				}
 			});
 		} else {
-			var label = 'Товара на складе уже закупленно ' + currentGoods;
-			log.warn(label);
+			var label = 'Товара на складе уже закупленно ' + currentGoods + ' ед.';
+			log.info(label);
 			goodsPromise.fulfill(label);
 		}
 	});
