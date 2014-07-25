@@ -1,18 +1,16 @@
 {
 	"name": "bbot",
-	"version": "0.3.2",
+	"version": "0.3.3",
 	"private": true,
 	"dependencies": {
-		"express": "4.4.1",
-		"config": ">=0.4.36",
+		"config": "1.0.0",
 		"winston": ">=0.7.3",
 		"lodash": ">=2.4.1",
 		"cheerio": ">=0.17.0",
-		"vow": ">=0.3.12",
+		"vow": "0.3.12",
 		"request": ">=2.36.1",
-		"htmlparser": ">=1.7.6",
-		"email-templates": ">=1.0.0",
-		"nodemailer": ">=0.7.0",
+		"email-templates": "1.1.0",
+		"nodemailer": "1.0.4",
 		"moment": ">=2.7.0"
 	}
 }
