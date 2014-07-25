@@ -87,7 +87,7 @@ module.exports = {
 	log: {
 		transports: {
 			console: {
-				level: 'debug',
+				level: 'info',
 				colorize: true
 			},
 			file: {
