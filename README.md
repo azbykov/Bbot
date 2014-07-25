@@ -1,4 +1,4 @@
-butsa bot
+Butsa Bot
 ==
 
 ## Текущая версия 0.3.3
@@ -11,9 +11,11 @@ butsa bot
 
 
 ## Установка
-``
+```bash
 git clone git@github.com:azbykov/Bbot.git bbot
-``
+cd bbot
+npm install
+```
 
 ## Настройка
 Указать в  файле `config/default,js`
