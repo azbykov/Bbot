@@ -129,5 +129,11 @@ module.exports = {
 				last: ''
 			}
 		}
-	]
+	],
+
+	reports: {
+		daily: {
+			subject: 'Daily report (Ежедневный отчет)'
+		}
+	}
 };

@@ -7,4 +7,4 @@ PATH=
 
  #### Здесь начинаются задания
 
-0 15 * * * NODE_CONFIG_DIR=$PATH/config /usr/bin/node $PATH/bot/daily-15.js
+0 15 * * * NODE_ENV=production NODE_CONFIG_DIR=$PATH/config /usr/bin/node $PATH/bot/daily-15.js
