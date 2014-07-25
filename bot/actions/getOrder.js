@@ -2,18 +2,6 @@ var log = require('../../lib/log')('action_getOrder');
 var config = require('config').bot;
 var Vow = require('vow');
 var _ = require('lodash');
-var htmlparser = require("htmlparser");
-
-
-var handler = new htmlparser.DefaultHandler(function (error, dom) {
-	if (error) {
-		console.log('Error! message: ', error)
-	} else {
-		console.log('%j', dom)
-	}
-});
-var parser = new htmlparser.Parser(handler);
-
 
 var Order = require('../models/order');
 
