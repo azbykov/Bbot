@@ -3,8 +3,7 @@
  # в качестве командного интерпретатора использовать /bin/sh
  SHELL=/bin/sh
  # добавить в PATH домашний каталог пользователя
-PATH=
+PATH=/home/www/bbot
 
  #### Здесь начинаются задания
-
-0 15 * * * NODE_ENV=production NODE_CONFIG_DIR=$PATH/config /usr/bin/node $PATH/bot/daily-15.js
+NODE_ENV=production NODE_CONFIG_DIR=$PATH/config /usr/bin/node $PATH/bot/daily-15.js
