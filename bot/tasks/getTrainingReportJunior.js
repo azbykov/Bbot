@@ -32,7 +32,8 @@ var start = function() {
 
 
 		buffer.trainingJunior = {
-			progress: trainingProgress
+			progress: trainingProgress,
+			settingsLink: config.path.host + config.path.trainingJunior
 		};
 		buffer.trainingTitleJunior = config.trainingJunior.label;
 		promise.fulfill('done!');

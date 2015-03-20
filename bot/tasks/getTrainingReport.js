@@ -34,7 +34,8 @@ var start = function() {
 
 		buffer.training = {
 			progress: trainingProgress,
-			regress: trainingRegress
+			regress: trainingRegress,
+			settingsLink: config.path.host + config.path.training
 		};
 		buffer.trainingTitle = config.training.label;
 		promise.fulfill('done!');

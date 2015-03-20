@@ -44,11 +44,13 @@ var start = function() {
 				audience: matchInfo.text().split('Зрители: ')[1],
 				homeTeam: {
 					imgLink: host + table.find('table td>img')[0].attribs.src,
-					name: $(matchInfo.find('nobr a')[0]).text()
+					name: $(matchInfo.find('nobr a')[0]).text(),
+					link: config.path.protocol + config.path.domain + $(matchInfo.find('nobr a')[0]).attr('href')
 				},
 				guestTeam: {
 					imgLink: host + table.find('table td>img')[1].attribs.src,
-					name: $(matchInfo.find('nobr a')[1]).text()
+					name: $(matchInfo.find('nobr a')[1]).text(),
+					link: config.path.protocol + config.path.domain + $(matchInfo.find('nobr a')[1]).attr('href')
 				}
 			};
 
@@ -82,16 +84,12 @@ var start = function() {
 			matchResult.legenda = legenda;
 
 			// Пушим для писем
-
 			getImgPromise.always(function() {
 				buffer.matchResult = matchResult;
 				buffer.matchResultTitle = config.resultMatches.label;
 				promise.fulfill('done!');
 			});
 		});
-
-
-
 	});
 
 	return promise;
