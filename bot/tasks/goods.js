@@ -24,6 +24,7 @@ var start = function() {
 		}
 		var $ = cheerio.load(body);
 		var goods = $('img[title = "Товар на складе"]').next('b').children('a').text().split('.');
+		console.log(goods);
 		currentGoods.fulfill(_.parseInt(goods[0] + goods[1]));
 	});
 
