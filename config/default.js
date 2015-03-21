@@ -24,7 +24,8 @@ module.exports = {
 			buildings: '/xml/team/buildings.php?type=team/buildings&act=repairall2',
 			matches: '/matches',
 			training: '/xml/players/train.php',
-			trainingJunior: '/xml/school/train.php'
+			trainingJunior: '/xml/school/train.php',
+			financial: '/finances/report.php'
 		},
 
 		team: [
@@ -81,6 +82,11 @@ module.exports = {
 		},
 		trainingJunior: {
 			label: 'Тренировки ДЮСШ'
+		},
+		financial: {
+			report: {
+				label: 'Финансовый отчет'
+			}
 		}
 	},
 
