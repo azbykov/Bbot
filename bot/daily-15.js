@@ -7,6 +7,7 @@ var nearMatch = require('./tasks/nearMatch').start;
 var matchResult = require('./tasks/getLastResult').start;
 var trainingReport = require('./tasks/getTrainingReport').start;
 var trainingReportJunior = require('./tasks/getTrainingReportJunior').start;
+var financialReport = require('./tasks/financialReport').start;
 
 var dailyMail = require('../lib/mailer').daily;
 var errorMail = require('../lib/mailer').error;
@@ -22,7 +23,8 @@ authentication
 			nearMatch(),
 			matchResult(),
 			trainingReport(),
-			trainingReportJunior()
+			trainingReportJunior(),
+			financialReport()
 		]);
 	})
 	.fail(function(error) {
