@@ -140,6 +140,9 @@ module.exports = {
 	reports: {
 		daily: {
 			subject: 'Daily report (Ежедневный отчет)'
+		},
+		error: {
+			subject: 'Bbot error'
 		}
 	}
 };
