@@ -5,6 +5,7 @@ var cheerio = require('cheerio');
 var Vow = require('vow');
 var buffer = require('../../lib/buffer');
 var getImage = require('../actions/getImage');
+var addComments = require('../actions/addComments');
 
 var requestParams = {
 	uri: config.path.host
@@ -62,9 +63,6 @@ var start = function() {
 				matchResult.guestTeam.img = guestImg.valueOf();
 			});
 
-
-
-
 			var legendaTr = $(table.find('table')[1]).find('tr');
 			var legenda = [];
 
@@ -84,7 +82,10 @@ var start = function() {
 			matchResult.legenda = legenda;
 
 			// Пушим для писем
-			getImgPromise.always(function() {
+			Vow.allResolved([
+				getImgPromise,
+				addComments($, matchResult)
+			]).always(function() {
 				buffer.matchResult = matchResult;
 				buffer.matchResultTitle = config.resultMatches.label;
 				promise.fulfill('done!');
