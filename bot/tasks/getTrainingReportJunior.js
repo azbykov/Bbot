@@ -32,7 +32,9 @@ var start = function() {
 
 
 		buffer.trainingJunior = {
-			progress: trainingProgress
+			progress: trainingProgress,
+			settingsLink: config.path.host + config.path.trainingJunior,
+			trainingsLeft: $('#mainarea_rigth').text().split('\n')[1]
 		};
 		buffer.trainingTitleJunior = config.trainingJunior.label;
 		promise.fulfill('done!');

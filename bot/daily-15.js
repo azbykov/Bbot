@@ -7,20 +7,29 @@ var nearMatch = require('./tasks/nearMatch').start;
 var matchResult = require('./tasks/getLastResult').start;
 var trainingReport = require('./tasks/getTrainingReport').start;
 var trainingReportJunior = require('./tasks/getTrainingReportJunior').start;
+var financialReport = require('./tasks/financialReport').start;
 
 var dailyMail = require('../lib/mailer').daily;
+var errorMail = require('../lib/mailer').error;
+var Vow = require('vow');
 
 // Step 1
 authentication
-	.then(friendly)
-	.then(goods)
-	.then(buildings)
-	.then(nearMatch)
-	.then(matchResult)
-	.then(trainingReport)
-	.then(trainingReportJunior)
+	.then(function () {
+		return Vow.allResolved([
+			friendly(),
+			goods(),
+			buildings(),
+			nearMatch(),
+			matchResult(),
+			trainingReport(),
+			trainingReportJunior(),
+			financialReport()
+		]);
+	})
 	.fail(function(error) {
-		log.error('Error: ', error.message);
+		log.error('error: ', error.message);
+		errorMail(error);
 	}).then(function() {
 		dailyMail();
 	})
