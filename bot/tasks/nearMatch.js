@@ -59,7 +59,10 @@ var start = function() {
 var getEmblem = function (matchesData) {
 	var imagesPromise = _.map(matchesData, function (matchData) {
 		var emblem = matchData.emblemLink;
-		return getImage(emblem);
+		if (emblem) {
+			return getImage(emblem);
+		}
+		return null;
 	});
 	return Vow.allResolved(imagesPromise).then(function (matchesEmblem) {
 		_.forEach(matchesData, function (match, i) {
