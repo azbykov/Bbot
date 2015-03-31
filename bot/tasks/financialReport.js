@@ -27,7 +27,7 @@ var start = function() {
 		var table = $('.maintable').first();
 		var tr = table.find('tr');
 
-		var toDay = moment().format('DD.MM.YYYY');
+		var toDay = moment().format('DD.MM.YY');
 
 		var result = _.map(tr, function (trData) {
 			trData = _.compact($(trData).text().split('\n'));
@@ -42,7 +42,6 @@ var start = function() {
 			}
 			return ''
 		});
-
 		// Пушим для писем
 		buffer.financialReport = {
 			report: _.compact(result),
