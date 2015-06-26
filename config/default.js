@@ -26,7 +26,8 @@ module.exports = {
 			training: '/xml/players/train.php',
 			trainingJunior: '/xml/school/train.php',
 			financial: '/finances/report.php',
-			mail: '/xml/office/mail.php'
+			mail: '/xml/office/mail.php',
+			playersAbilities: '/xml/players/roster.php?id=3923&act=abilities'
 		},
 
 		team: [
@@ -91,6 +92,9 @@ module.exports = {
 		},
 		mail: {
 			label: 'Новые письма'
+		},
+		optimizeTraining: {
+			label: 'Оптимизация тренировок'
 		},
 
 		comments: {

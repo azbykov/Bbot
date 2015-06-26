@@ -1,0 +1,38 @@
+{
+  "byPlayerId": {
+    "384288": "defence",
+    "595836": "min-ability",
+    "466563": "min-ability",
+    "628359": ["dribl", "tothnostYdara"]
+  },
+  "byRole": {
+    "def": "defence",
+    "mid": "ball-control",
+    "cf": "strike"
+  },
+  "byPosition": [],
+  "tactics": {
+    "defence": {
+      "ability": ["otbor", "opeka"]
+    },
+    "ball-control": {
+      "ability": ["dribl", "priem", "pas"]
+    },
+    "strike": {
+      "ability": ["silaYdara", "tothnostYdara"]
+    },
+    "min-ability": {
+      "min": true,
+      "ability": [
+        "otbor",
+        "opeka",
+        "dribl",
+        "priem",
+        "vinoslevost",
+        "pas",
+        "silaYdara",
+        "tothnostYdara"
+      ]
+    }
+  }
+}

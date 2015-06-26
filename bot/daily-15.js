@@ -8,6 +8,7 @@ var matchResult = require('./tasks/getLastResult').start;
 var trainingReport = require('./tasks/getTrainingReport').start;
 var trainingReportJunior = require('./tasks/getTrainingReportJunior').start;
 var financialReport = require('./tasks/financialReport').start;
+var setOptimalTraining = require('./tasks/setOptimalTraining').start;
 
 var dailyMail = require('../lib/mailer').daily;
 var errorMail = require('../lib/mailer').error;
@@ -24,7 +25,8 @@ authentication
 			matchResult(),
 			trainingReport(),
 			trainingReportJunior(),
-			financialReport()
+			financialReport(),
+			setOptimalTraining()
 		]);
 	})
 	.fail(function(error) {
