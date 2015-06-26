@@ -1,6 +1,6 @@
 {
 	"name": "bbot",
-	"version": "0.5.0",
+	"version": "0.5.1",
 	"private": true,
 	"dependencies": {
 		"config": "1.14.0",
