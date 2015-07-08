@@ -9,6 +9,7 @@ var trainingReport = require('./tasks/getTrainingReport').start;
 var trainingReportJunior = require('./tasks/getTrainingReportJunior').start;
 var financialReport = require('./tasks/financialReport').start;
 var setOptimalTraining = require('./tasks/setOptimalTraining').start;
+var checkMail = require('./tasks/checkMail').start;
 
 var dailyMail = require('../lib/mailer').daily;
 var errorMail = require('../lib/mailer').error;
@@ -26,6 +27,7 @@ authentication
 			trainingReport(),
 			trainingReportJunior(),
 			financialReport(),
+			checkMail(),
 			setOptimalTraining()
 		]);
 	})
