@@ -15,6 +15,8 @@ var dailyMail = require('../lib/mailer').daily;
 var errorMail = require('../lib/mailer').error;
 var Vow = require('vow');
 
+
+log.profiler.start('daily-15');
 // Step 1
 authentication
 	.then(function () {
@@ -36,5 +38,7 @@ authentication
 		errorMail(error);
 	}).then(function() {
 		dailyMail();
+	}).always(function () {
+		log.debug('[COMPLETE] Task daily-15', log.profiler.end('daily-15'));
 	})
 ;
