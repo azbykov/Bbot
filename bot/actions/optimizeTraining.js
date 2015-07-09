@@ -68,7 +68,7 @@ module.exports = function(playersData) {
 	var request = global.butsaRequest;
 
 	log.profiler.start('action_optimize_training');
-	log.info('[START] Optimize_training');
+	log.debug('[START] Optimize_training');
 
 	requestParams.form = prepareFormData(playersData);
 
