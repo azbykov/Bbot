@@ -14,8 +14,9 @@ var requestParams = {
 var promise = Vow.promise();
 
 var start = function() {
+	log.profiler.start('task_optimaze_training');
 	var request = global.butsaRequest;
-	log.debug('Start optimaze training');
+	log.debug('[START] Optimaze training');
 	request(requestParams, function(error, res, body) {
 		if (error) {
 			log.error('error request', error);
@@ -64,6 +65,7 @@ var start = function() {
 
 		optimizeTraining(trainingData).then(function (status) {
 			log.info('Тренировки обновлены. Посмотреть ' + config.path.host + config.path.training);
+			log.debug('[COMPLETE] Optimaze training', log.profiler.end('task_optimaze_training'));
 			promise.fulfill('done!');
 		}).fail(function (err) {
 			log.error('Что-то пошло не так. Ошибка: ' + err);

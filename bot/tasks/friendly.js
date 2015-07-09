@@ -15,8 +15,9 @@ var requestParams = {
 var friendlyPromise = Vow.promise();
 
 var start = function() {
+	log.profiler.start('task_friendly');
 	var request = global.butsaRequest;
-	log.debug('Start friendly');
+	log.debug('[START] Friendly');
 	request.post(requestParams, function(error, res, body) {
 		if (error) {
 			log.error('Error request', error.message);
@@ -42,6 +43,7 @@ var start = function() {
 				log.error('Error repair all buildings. Result message:', label);
 				log.debug('Error! ' + label +'. with params', requestParams.form);
 			}
+			log.debug('[COMPLETE] Friendly', log.profiler.end('task_friendly'));
 			friendlyPromise.fulfill(label);
 		}
 	});

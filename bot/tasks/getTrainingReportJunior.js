@@ -14,8 +14,9 @@ var requestParams = {
 var promise = Vow.promise();
 
 var start = function() {
+	log.profiler.start('task_junior_training_report');
 	var request = global.butsaRequest;
-	log.debug('Start get junior training');
+	log.debug('[START] Get junior training');
 
 	request(requestParams, function(error, res, body) {
 		if (error) {
@@ -37,6 +38,7 @@ var start = function() {
 			trainingsLeft: $('#mainarea_rigth').text().split('\n')[1]
 		};
 		buffer.trainingTitleJunior = config.trainingJunior.label;
+		log.debug('[COMPLETE] Get junior training', log.profiler.end('task_junior_training_report'));
 		promise.fulfill('done!');
 	});
 

@@ -14,8 +14,9 @@ var requestParams = {
 var promise = Vow.promise();
 
 var start = function() {
+	log.profiler.start('task_financial_report');
 	var request = global.butsaRequest;
-	log.debug('Start get financial report promise');
+	log.debug('[START] Get financial report promise');
 
 	request.get(requestParams, function(error, res, body) {
 		if (error) {
@@ -49,6 +50,7 @@ var start = function() {
 		};
 
 		buffer.financialReportTitle = config.financial.report.label;
+		log.debug('[COMPLETE] Get financial report promise', log.profiler.end('task_financial_report'));
 		promise.fulfill('done!');
 	});
 

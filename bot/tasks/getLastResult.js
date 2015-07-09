@@ -15,15 +15,18 @@ var requestParams = {
 var promise = Vow.promise();
 
 var start = function() {
+	log.profiler.start('task_get_last_result');
 	var request = global.butsaRequest;
-	log.debug('Start result match');
+	log.debug('[START] Result match');
 
-	log.debug('get match id');
+	log.profiler.start('get_match_id');
+	log.debug('[START] Match id');
 	var matchIdPromise = getMatchIdPromise();
 
 
 
 	matchIdPromise.then(function(matchPath) {
+		log.debug('[COMPLETE] Match id', log.profiler.end('get_match_id'));
 //		matchPath = '/matches/7675569';
 		requestParams.uri = config.path.protocol + config.path.domain + matchPath;
 		request.get(requestParams, function(error, res, body) {
@@ -88,6 +91,7 @@ var start = function() {
 			]).always(function() {
 				buffer.matchResult = matchResult;
 				buffer.matchResultTitle = config.resultMatches.label;
+				log.debug('[COMPLETE] Result match', log.profiler.end('task_get_last_result'));
 				promise.fulfill('done!');
 			});
 		});

@@ -14,8 +14,9 @@ var requestParams = {
 var goodsPromise = Vow.promise();
 
 var start = function() {
+	log.profiler.start('task_goods');
 	var request = global.butsaRequest;
-	log.debug('Start buy goods');
+	log.debug('[START] Buy goods');
 	var currentGoods = Vow.promise();
 	request.get(requestParams, function(error, res, body) {
 		if (error) {
@@ -49,6 +50,8 @@ var start = function() {
 						var label = $('#mainarea_rigth table td table').first().text();
 						log.info(label + '(' + currentGoods + ' ед.)' + '. Товара на складе '
 								+ (requestParams.form.Amount + currentGoods)) + ' ед.';
+
+						log.debug('[COMPLETE] Buy goods', log.profiler.end('task_goods'));
 						goodsPromise.fulfill(label);
 					});
 				} else {
@@ -62,6 +65,7 @@ var start = function() {
 		} else {
 			var label = 'Товара на складе уже закупленно ' + currentGoods + ' ед.';
 			log.info(label);
+			log.debug('[COMPLETE] Buy goods', log.profiler.end('task_goods'));
 			goodsPromise.fulfill(label);
 		}
 	});

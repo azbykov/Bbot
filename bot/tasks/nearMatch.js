@@ -13,8 +13,9 @@ var requestParams = {
 var promise = Vow.promise();
 
 var start = function() {
+	log.profiler.start('task_near_match');
 	var request = global.butsaRequest;
-	log.debug('Start get near promise');
+	log.debug('[START] Get near promise');
 
 	request.get(requestParams, function(error, res, body) {
 		if (error) {
@@ -48,6 +49,7 @@ var start = function() {
 		buffer.matches = result;
 		buffer.matchesTitle = config.nearMatch.label;
 		getEmblem(result).always(function () {
+			log.debug('[COMPLETE] Get near promise', log.profiler.end('task_near_match'));
 			promise.fulfill('done!');
 		});
 	});

@@ -13,8 +13,9 @@ var requestParams = {
 var promise = Vow.promise();
 
 var start = function() {
+	log.profiler.start('test');
 	var request = global.butsaRequest;
-	log.debug('Start check mail');
+	log.debug('[START] Check mail');
 
 	request(requestParams, function(error, res, body) {
 		if (error) {
@@ -36,6 +37,7 @@ var start = function() {
 			}
 		});
 		buffer.mailTitle = config.mail.label;
+		log.debug('[COMPLETE] Check mail', log.profiler.end('test'));
 		promise.fulfill('done!');
 	});
 

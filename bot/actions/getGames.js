@@ -11,14 +11,15 @@ var requestParams = {
 };
 
 module.exports.get = get = function(request) {
-	log.info('start get games');
+	log.profiler.start('action_getGames');
+	log.info('[START] Get games');
 	request.get(requestParams, function(error, res, body) {
 		if (error) {
 			log.error('error request', error.message)
 		}
 		var gamesList = getGamesList(body);
 		games.fulfill(gamesList);
-		log.info('done get games');
+		log.info('[COMPLETE] Get games', log.profiler.end('action_getGames'));
 	});
 };
 

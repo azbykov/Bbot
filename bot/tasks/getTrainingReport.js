@@ -14,8 +14,9 @@ var requestParams = {
 var promise = Vow.promise();
 
 var start = function() {
+	log.profiler.start('task_training_report');
 	var request = global.butsaRequest;
-	log.debug('Start get training');
+	log.debug('[START] Get training');
 
 	request(requestParams, function(error, res, body) {
 		if (error) {
@@ -39,6 +40,7 @@ var start = function() {
 			trainingsLeft: $('#mainarea_rigth').text().split('\n')[1]
 		};
 		buffer.trainingTitle = config.training.label;
+		log.debug('[COMPLETE] Get training', log.profiler.end('task_training_report'));
 		promise.fulfill('done!');
 	});
 

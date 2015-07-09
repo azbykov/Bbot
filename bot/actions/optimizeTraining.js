@@ -67,7 +67,8 @@ module.exports = function(playersData) {
 	var promise = Vow.promise();
 	var request = global.butsaRequest;
 
-	log.debug('start get games');
+	log.profiler.start('action_optimize_training');
+	log.info('[START] Optimize_training');
 
 	requestParams.form = prepareFormData(playersData);
 
@@ -80,7 +81,7 @@ module.exports = function(playersData) {
 		var $ = cheerio.load(body);
 		var table = $('#mainarea_rigth td[bgcolor="#F7F6DA"]').text();
 
-		log.debug('done get games');
+		log.debug('[COMPLETE] Optimize_training', log.profiler.end('action_optimize_training'));
 		promise.fulfill('done');
 	});
 	return promise;

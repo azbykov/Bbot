@@ -15,8 +15,9 @@ var requestParams = {
 var buildings = Vow.promise();
 
 var start = function() {
+	log.profiler.start('task_building');
 	var request = global.butsaRequest;
-	log.debug('Start repair buildings');
+	log.debug('[START] Repair buildings');
 	request.post(requestParams, function(error, res, body) {
 		if (error) {
 			log.error('Eror request', error.message);
@@ -41,6 +42,7 @@ var start = function() {
 				log.error('Error repair all buildings. Result message:', label);
 				log.debug('Error! ' + label +'. with params', requestParams.form);
 			}
+			log.debug('[COMPLETE] Repair buildings', log.profiler.end('task_building'));
 			buildings.fulfill(label);
 		}
 	});
