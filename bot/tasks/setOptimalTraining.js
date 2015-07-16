@@ -7,7 +7,11 @@ var buffer = require('../../lib/buffer');
 var optimizeTraining = require('../actions/optimizeTraining');
 
 var requestParams = {
-	uri: config.path.host + config.path.playersAbilities
+	uri: config.path.host + config.path.playersAbilities,
+	qs: {
+		id: config.team.id,
+		act: 'abilities'
+	}
 };
 
 

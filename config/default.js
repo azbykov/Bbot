@@ -27,15 +27,13 @@ module.exports = {
 			trainingJunior: '/xml/school/train.php',
 			financial: '/finances/report.php',
 			mail: '/xml/office/mail.php',
-			playersAbilities: '/xml/players/roster.php?id=3923&act=abilities'
+			playersAbilities: '/xml/players/roster.php'
 		},
 
-		team: [
-			{
-				name: '',
-				id: ''
-			}
-		],
+		team: {
+			name: '',
+			id: ''
+		},
 
 //		orderName: 'test'
 		orderName: 'auto',

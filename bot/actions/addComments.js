@@ -4,7 +4,7 @@ var Vow = require('vow');
 var _ = require('lodash');
 var comments = config.comments;
 
-var MATCH_STATE = 	{
+var MATCH_STATE = {
 	1: 'win',
 	x: 'draw',
 	2: 'lose'

@@ -68,7 +68,6 @@ module.exports = function(playersData) {
 	var request = global.butsaRequest;
 
 	log.profiler.start('action_optimize_training');
-	log.debug('[START] Optimize_training');
 
 	requestParams.form = prepareFormData(playersData);
 
@@ -80,8 +79,6 @@ module.exports = function(playersData) {
 
 		var $ = cheerio.load(body);
 		var table = $('#mainarea_rigth td[bgcolor="#F7F6DA"]').text();
-
-		log.debug('[COMPLETE] Optimize_training', log.profiler.end('action_optimize_training'));
 		promise.fulfill('done');
 	});
 	return promise;
