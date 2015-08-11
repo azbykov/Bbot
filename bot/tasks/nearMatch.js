@@ -15,7 +15,7 @@ var promise = Vow.promise();
 var start = function() {
 	log.profiler.start('task_near_match');
 	var request = global.butsaRequest;
-	log.debug('[START] Get near promise');
+	log.debug('[START] Get near Mathes');
 
 	request.get(requestParams, function(error, res, body) {
 		if (error) {
@@ -23,7 +23,17 @@ var start = function() {
 			promise.reject(error);
 		}
 		var $ = cheerio.load(body);
-		var table = $('.maintable').first();
+		// center
+		var table = $('.maintable').find('img[src="http://butsa.ru/images/icons/edit.png"]').parent();
+		// a
+		table = $(table).parent();
+		//td
+		table = $(table).parent();
+		//tr
+		table = $(table).parent();
+		// table
+		table = $(table).parent();
+
 		var tr = table.find('tr');
 		var result = [];
 		tr.each(function(i, match) {
@@ -49,7 +59,7 @@ var start = function() {
 		buffer.matches = result;
 		buffer.matchesTitle = config.nearMatch.label;
 		getEmblem(result).always(function () {
-			log.debug('[COMPLETE] Get near promise', log.profiler.end('task_near_match'));
+			log.debug('[COMPLETE] Get near Match', log.profiler.end('task_near_match'));
 			promise.fulfill('done!');
 		});
 	});
