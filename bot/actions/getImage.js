@@ -24,7 +24,7 @@ var getImage = function(url) {
 		}
 		imageSrc.fulfill(new Buffer(body.toString(), "binary").toString("base64"));
 	});
-	return imageSrc
+	return imageSrc;
 };
 
 

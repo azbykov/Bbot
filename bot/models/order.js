@@ -50,6 +50,6 @@ Order.prototype.setRoles = function() {
 		this.role_FreeKicks,
 		this.role_Penalties
 	].join(';');
-}
+};
 
 module.exports = Order;
