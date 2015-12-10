@@ -26,7 +26,7 @@ var getMatchResult = function ($, match) {
 	if (result[0] > result[1]) {
 		 result = (match.guestTeam.name == ourTeam) ? 2 : 1;
 	} else if (result[0] == result[1]) {
-		result = x;
+		result = 'x';
 	} else {
 		result = (match.guestTeam.name == ourTeam) ? 1 : 2;
 	}
