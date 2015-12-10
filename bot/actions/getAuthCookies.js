@@ -11,8 +11,10 @@ var requestParams = {
 	uri: config.path.protocol + config.path.domain + config.path.auth,
 	method: "POST",
 	form: {
+		step: 1,
 		auth_name: config.auth.login,
-		auth_pass: config.auth.password
+		auth_pass: config.auth.password,
+		auth_remember: true
 	}
 };
 
