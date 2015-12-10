@@ -19,6 +19,10 @@ var getMatchResult = function ($, match) {
 	var ourTeam = $(formPress.prev('b').find('a')[1]).text();
 	var result = match.result.split(':');
 
+	result = _.map(result, function (res) {
+		return Number(res);
+	});
+
 	if (result[0] > result[1]) {
 		 result = (match.guestTeam.name == ourTeam) ? 2 : 1;
 	} else if (result[0] == result[1]) {
