@@ -3,16 +3,16 @@
   "version": "0.5.2",
   "description": "Butsa Bot",
   "dependencies": {
-    "config": "1.17.*",
-    "winston": "2.1.*",
-    "lodash": ">=3.10.*",
-    "cheerio": ">=0.19.0",
+    "config": "1.19.*",
+    "winston": "2.2.*",
+    "lodash": ">=3.*",
+    "cheerio": ">=0.20.0",
     "vow": "0.3.12",
     "request": "2.*",
     "email-templates": "2.*",
-    "nodemailer": "1.10.*",
-    "ejs": "2.3.*",
-    "moment": "2.10.*"
+    "nodemailer": ">=1.10.*",
+    "ejs": "2.*",
+    "moment": "2.*"
   },
   "devDependencies": {
     "eslint": "^1.10.3"
