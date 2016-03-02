@@ -18,7 +18,7 @@
     "eslint": "^1.10.3"
   },
   "scripts": {
-    "test": "eslint"
+    "test": "eslint bot/ lib/"
   },
   "repository": {
     "type": "git",

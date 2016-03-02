@@ -1,3 +1,5 @@
+'use strict';
+
 var log = require('../../lib/log')('authentication');
 var request = require('request');
 var config = require('config').bot;
@@ -5,11 +7,11 @@ var Vow = require('vow');
 
 global.butsaRequest = {};
 
-module.exports.cookies = cookies = Vow.promise();
+var cookies = Vow.promise();
 
 var requestParams = {
 	uri: config.path.protocol + config.path.domain + config.path.auth,
-	method: "POST",
+	method: 'POST',
 	form: {
 		step: 1,
 		auth_name: config.auth.login,
@@ -20,8 +22,8 @@ var requestParams = {
 
 request = request.defaults({jar: true});
 
-module.exports.get = get = function() {
-	request(requestParams, function(error, res, body) {
+var get = function() {
+	request(requestParams, function(error) {
 		if (error) {
 			log.error('error request', error.message);
 			cookies.reject(error);
@@ -32,4 +34,8 @@ module.exports.get = get = function() {
 	return cookies;
 };
 
+module.exports = {
+	cookies: cookies,
+	get: get
+};
 

@@ -1,8 +1,10 @@
+'use strict';
+
 var log = require('../../lib/log')('action_addComment');
 var config = require('config').bot;
 var Vow = require('vow');
 var _ = require('lodash');
-var comments = config.comments;
+var commentsConfig = config.comments;
 
 var MATCH_STATE = {
 	1: 'win',
@@ -10,30 +12,30 @@ var MATCH_STATE = {
 	2: 'lose'
 };
 
-var getAvailableComments = function (state) {
-	return _.union(comments.common, comments[state] || []);
+var getAvailableComments = function(state) {
+	return _.union(commentsConfig.common, commentsConfig[state] || []);
 };
 
-var getMatchResult = function ($, match) {
+var getMatchResult = function($, match) {
 	var formPress = $('form[name="press"]');
 	var ourTeam = $(formPress.prev('b').find('a')[1]).text();
 	var result = match.result.split(':');
 
-	result = _.map(result, function (res) {
+	result = _.map(result, function(res) {
 		return Number(res);
 	});
 
 	if (result[0] > result[1]) {
-		 result = (match.guestTeam.name == ourTeam) ? 2 : 1;
-	} else if (result[0] == result[1]) {
+		result = (match.guestTeam.name === ourTeam) ? 2 : 1;
+	} else if (result[0] === result[1]) {
 		result = 'x';
 	} else {
-		result = (match.guestTeam.name == ourTeam) ? 1 : 2;
+		result = (match.guestTeam.name === ourTeam) ? 1 : 2;
 	}
 	return MATCH_STATE[result];
 };
 
-var addComment = function ($, match) {
+var addComment = function($, match) {
 
 	var comments = Vow.promise();
 	var formPress = $('form[name="press"]');
@@ -52,28 +54,28 @@ var addComment = function ($, match) {
 
 		var results = {};
 		var inputs = formPress.find('input[type="hidden"]');
-		_.forEach(inputs, function (input) {
+		_.forEach(inputs, function(input) {
 			var inputName = input.attribs.name;
 			var inputValue = input.attribs.value;
-			results[inputName] = inputValue
+			results[inputName] = inputValue;
 		});
 
 		var textAreas = formPress.find('textarea');
 
-		_.forEach(textAreas, function (textarea) {
+		_.forEach(textAreas, function(textarea) {
 			var textareaName = textarea.attribs.name;
 			results[textareaName] = availableComments[_.random(availableComments.length - 1)];
 		});
 		requestParams.form = results;
 
-		request.post(requestParams, function (err, responce) {
+		request.post(requestParams, function(err) {
 			if (err) {
 				log.warn('Can\'t send comments. Link: ' + match.path + '. Error: ' + err);
 				comments.fulfill('Can\'t send comments. Link: ' + match.path + '. Error: ' + err);
 			}
 			comments.fulfill('Комментария добавлены');
 			log.info('Комментария в пресс-центре добавлены. ' + match.path);
-		})
+		});
 	}
 
 	return comments;
