@@ -1,3 +1,5 @@
+'use strict';
+
 var log = require('../../lib/log')('task_building');
 var config = require('config').bot;
 var _ = require('lodash');
@@ -27,8 +29,12 @@ var start = function() {
 		if (res.headers && res.headers.location) {
 			log.debug('Check status');
 			var uri = config.path.protocol + config.path.domain + res.headers.location;
-			request.get(uri, function(err, res, body) {
-				var $ = cheerio.load(body);
+			request.get(uri, function(err, bRes, bBody) {
+				if (err) {
+					log.error('Eror request', err.message);
+					buildings.reject(err);
+				}
+				var $ = cheerio.load(bBody);
 				var label = $('#mainarea_rigth table td table').first().text();
 				log.info(label);
 				buildings.fulfill(label);
@@ -40,7 +46,7 @@ var start = function() {
 				log.info(label);
 			} else {
 				log.error('Error repair all buildings. Result message:', label);
-				log.debug('Error! ' + label +'. with params', requestParams.form);
+				log.debug('Error! ' + label + '. with params', requestParams.form);
 			}
 			log.debug('[COMPLETE] Repair buildings', log.profiler.end('task_building'));
 			buildings.fulfill(label);

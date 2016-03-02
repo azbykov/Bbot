@@ -1,9 +1,10 @@
+'use strict';
+
 var log = require('../../lib/log')('task_optimaze_training');
 var config = require('config').bot;
 var _ = require('lodash');
 var cheerio = require('cheerio');
 var Vow = require('vow');
-var buffer = require('../../lib/buffer');
 var optimizeTraining = require('../actions/optimizeTraining');
 
 var requestParams = {
@@ -37,9 +38,8 @@ var start = function() {
 
 		var playersTr = trainingTable.find('tr:not([bgcolor="#D3E1EC"]):not([class="header"])');
 
-		var trainingData = _.map(playersTr, function (player) {
+		var trainingData = _.map(playersTr, function(player) {
 			var playerParams = $(player).find('td');
-			var player = {};
 
 			var skills = {
 				otbor: $(playerParams[6]).text().replace('\n', ''),
@@ -67,11 +67,11 @@ var start = function() {
 			return player;
 		});
 
-		optimizeTraining(trainingData).then(function (status) {
+		optimizeTraining(trainingData).then(function() {
 			log.info('Тренировки обновлены. Посмотреть ' + config.path.host + config.path.training);
 			log.debug('[COMPLETE] Optimaze training', log.profiler.end('task_optimaze_training'));
 			promise.fulfill('done!');
-		}).fail(function (err) {
+		}).fail(function(err) {
 			log.error('Что-то пошло не так. Ошибка: ' + err);
 			promise.reject(err);
 		});

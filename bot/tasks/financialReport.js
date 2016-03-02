@@ -1,3 +1,5 @@
+'use strict';
+
 var log = require('../../lib/log')('task_financial_report');
 var config = require('config').bot;
 var _ = require('lodash');
@@ -30,18 +32,15 @@ var start = function() {
 
 		var toDay = moment().format('DD.MM.YY');
 
-		var result = _.map(tr, function (trData) {
+		var result = _.map(tr, function(trData) {
 			trData = _.compact($(trData).text().split('\n'));
-			if (_.includes(trData[0], toDay)) {
-				return {
-					date: trData[0],
-					comment: trData[1],
-					money: trData[2],
-					contrAgent: trData[3],
-					balance: trData[4]
-				}
-			}
-			return ''
+			return _.includes(trData[0], toDay) ? {
+				date: trData[0],
+				comment: trData[1],
+				money: trData[2],
+				contrAgent: trData[3],
+				balance: trData[4]
+			} : '';
 		});
 		// Пушим для писем
 		buffer.financialReport = {

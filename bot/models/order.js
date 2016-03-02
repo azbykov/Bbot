@@ -1,3 +1,5 @@
+'use strict';
+
 var Order = function(options) {
 	this.filename = options.filename || this.filename;
 	this.id = options.id || this.id;
@@ -31,7 +33,7 @@ var Order = function(options) {
 	this.role_Penalties = options.role_Penalties || '';
 };
 
-Order.prototype.setMatch = function(match) {
+Order.prototype.setMatch = function() {
 	this.match = [
 		this.match_tactics,
 		this.match_passes,
