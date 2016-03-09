@@ -1,4 +1,4 @@
-Butsa Bot
+Butsa Bot  [![Build Status](https://travis-ci.org/azbykov/Bbot.svg?branch=master)](https://travis-ci.org/azbykov/Bbot)
 ==
 
 ## Текущая версия 0.6.0
@@ -81,7 +81,8 @@ crontab cron/cron.sh
 ### v0.6.1
 * Расчет восстановления Ф/Г
 * Расчет вероятности получения травмы
-
+### v0.7.0
+* Транферный агент
 ### v1.0.0
 * Вэб интерфейс
 * отправка состава

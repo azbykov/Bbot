@@ -1,3 +1,5 @@
+'use strict';
+
 var log = require('../lib/log')('daily-15');
 var authentication = require('./actions/getAuthCookies').get();
 var friendly = require('./tasks/friendly').start;
@@ -19,7 +21,7 @@ var Vow = require('vow');
 log.profiler.start('daily-15');
 // Step 1
 authentication
-	.then(function () {
+	.then(function() {
 		return Vow.allResolved([
 			friendly(),
 			goods(),
@@ -38,7 +40,7 @@ authentication
 		errorMail(error);
 	}).then(function() {
 		dailyMail();
-	}).always(function () {
+	}).always(function() {
 		log.debug('[COMPLETE] Task daily-15', log.profiler.end('daily-15'));
 	})
 ;

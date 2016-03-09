@@ -1,7 +1,9 @@
+'use strict';
+
 var Order = function(options) {
 	this.filename = options.filename || this.filename;
 	this.id = options.id || this.id;
-	this.load = 0,
+	this.load = 0;
 	this.main_players = options.main_players || '';
 	this.match = options.match || '';
 	this.match_type = options.match_type || 0;
@@ -31,14 +33,14 @@ var Order = function(options) {
 	this.role_Penalties = options.role_Penalties || '';
 };
 
-Order.prototype.setMatch = function(match) {
+Order.prototype.setMatch = function() {
 	this.match = [
 		this.match_tactics,
 		this.match_passes,
 		this.match_strategy,
 		this.match_pressing,
 		this.match_pressing_flank,
-		this.match_pressing_attack_defence,
+		this.match_pressing_attack_defence
 	].join(';');
 };
 

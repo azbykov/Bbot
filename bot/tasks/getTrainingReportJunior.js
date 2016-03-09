@@ -1,3 +1,5 @@
+'use strict';
+
 var log = require('../../lib/log')('task_junior_training_report');
 var config = require('config').bot;
 var _ = require('lodash');

@@ -1,6 +1,7 @@
+'use strict';
+
 var Vow = require('vow');
 var request = require('request');
-var fs = require('fs');
 
 var getImage = function(url) {
 	var imageSrc = Vow.promise();
@@ -22,7 +23,7 @@ var getImage = function(url) {
 			console.log('Error!!', err);
 			return imageSrc.reject(err);
 		}
-		imageSrc.fulfill(new Buffer(body.toString(), "binary").toString("base64"));
+		imageSrc.fulfill(new Buffer(body.toString(), 'binary').toString('base64'));
 	});
 	return imageSrc;
 };

@@ -1,3 +1,5 @@
+'use strict';
+
 var log = require('../../lib/log')('task_goods');
 var config = require('config').bot;
 var _ = require('lodash');
@@ -28,14 +30,14 @@ var start = function() {
 		currentGoods.fulfill(_.parseInt(goods[0] + goods[1]));
 	});
 
-	currentGoods.then(function(currentGoods) {
+	currentGoods.then(function(currGoods) {
 		var maxGoods = config.goods.goods * config.goods.games;
-		if (currentGoods < maxGoods) {
+		if (currGoods < maxGoods) {
 			requestParams = {
 				uri: requestParams.uri + config.path.goods,
 				form: params
 			};
-			requestParams.form.Amount = (maxGoods - currentGoods);
+			requestParams.form.Amount = (maxGoods - currGoods);
 			request.post(requestParams, function(error, res, body) {
 				if (error) {
 					log.error('Error request', error.message);
@@ -45,11 +47,16 @@ var start = function() {
 				if (res.headers && res.headers.location) {
 					log.debug('Check status');
 					var uri = config.path.protocol + config.path.domain + res.headers.location;
-					request.get(uri, function(err, res, body) {
-						var $ = cheerio.load(body);
+					request.get(uri, function(err, bRes, bBody) {
+						if (err) {
+							log.error('Error request', err.message);
+							goodsPromise.reject(err);
+						}
+						var $ = cheerio.load(bBody);
 						var label = $('#mainarea_rigth table td table').first().text();
-						log.info(label + '(' + currentGoods + ' ед.)' + '. Товара на складе '
-								+ (requestParams.form.Amount + currentGoods)) + ' ед.';
+
+						log.info(label + '(' + currGoods + ' ед.)' + '. Товара на складе '
+								+ (requestParams.form.Amount + currGoods) + ' ед.');
 
 						log.debug('[COMPLETE] Buy goods', log.profiler.end('task_goods'));
 						goodsPromise.fulfill(label);
@@ -58,12 +65,12 @@ var start = function() {
 					var $ = cheerio.load(body);
 					var label = $('#mainarea_rigth table font').text();
 					log.error('Error post buy goods message:' + label);
-					log.debug('Error! ' + label +'. with params', requestParams.form);
+					log.debug('Error! ' + label + '. with params', requestParams.form);
 					goodsPromise.fulfill(label);
 				}
 			});
 		} else {
-			var label = 'Товара на складе уже закупленно ' + currentGoods + ' ед.';
+			var label = 'Товара на складе уже закупленно ' + currGoods + ' ед.';
 			log.info(label);
 			log.debug('[COMPLETE] Buy goods', log.profiler.end('task_goods'));
 			goodsPromise.fulfill(label);

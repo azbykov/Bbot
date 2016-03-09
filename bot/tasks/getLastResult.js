@@ -1,3 +1,5 @@
+'use strict';
+
 var log = require('../../lib/log')('task_get_last_result');
 var config = require('config').bot;
 var _ = require('lodash');
@@ -102,18 +104,18 @@ var start = function() {
 
 
 var getMatchIdPromise = function() {
-	var promise = Vow.promise();
+	var promiseVow = Vow.promise();
 	var request = global.butsaRequest;
 	request.get(requestParams, function(error, res, body) {
 		if (error) {
 			log.error('error request', error.message);
-			promise.reject(error);
+			promiseVow.reject(error);
 		}
 		var $ = cheerio.load(body);
 		var matchPath = $('img[alt="Отчет"]').first().parent().attr('href');
-		promise.fulfill(matchPath);
+		promiseVow.fulfill(matchPath);
 	});
-	return promise;
+	return promiseVow;
 };
 
 module.exports = {

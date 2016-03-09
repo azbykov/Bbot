@@ -1,3 +1,5 @@
+'use strict';
+
 var log = require('../../lib/log')('task_check_mail');
 var config = require('config').bot;
 var _ = require('lodash');
@@ -28,13 +30,13 @@ var start = function() {
 		var mails = $('.maintable').find('tr:not([bgcolor="#D3E1EC"])');
 		var notReadedMails = mails.find('td a b');
 
-		buffer.mails = _.map(notReadedMails, function (mail) {
+		buffer.mails = _.map(notReadedMails, function(mail) {
 			var title = $(mail).text();
 			var link = config.path.host + $(mail).parent().attr('href');
 			return {
 				title: title,
 				link: link
-			}
+			};
 		});
 		buffer.mailTitle = config.mail.label;
 		log.debug('[COMPLETE] Check mail', log.profiler.end('test'));

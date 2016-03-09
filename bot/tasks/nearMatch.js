@@ -1,3 +1,5 @@
+'use strict';
+
 var log = require('../../lib/log')('task_near_match');
 var config = require('config').bot;
 var _ = require('lodash');
@@ -58,7 +60,7 @@ var start = function() {
 		// Пушим для писем
 		buffer.matches = result;
 		buffer.matchesTitle = config.nearMatch.label;
-		getEmblem(result).always(function () {
+		getEmblem(result).always(function() {
 			log.debug('[COMPLETE] Get near Match', log.profiler.end('task_near_match'));
 			promise.fulfill('done!');
 		});
@@ -68,16 +70,16 @@ var start = function() {
 };
 
 
-var getEmblem = function (matchesData) {
-	var imagesPromise = _.map(matchesData, function (matchData) {
+var getEmblem = function(matchesData) {
+	var imagesPromise = _.map(matchesData, function(matchData) {
 		var emblem = matchData.emblemLink;
 		if (emblem) {
 			return getImage(emblem);
 		}
 		return null;
 	});
-	return Vow.allResolved(imagesPromise).then(function (matchesEmblem) {
-		_.forEach(matchesData, function (match, i) {
+	return Vow.allResolved(imagesPromise).then(function(matchesEmblem) {
+		_.forEach(matchesData, function(match, i) {
 			if (!(_.isEmpty(matchesEmblem) || _.isEmpty(matchesEmblem[i]))) {
 				match.emblem = matchesEmblem[i].valueOf();
 			}
