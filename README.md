@@ -1,4 +1,4 @@
-Butsa Bot  [![Build Status](https://travis-ci.org/azbykov/Bbot.svg?branch=master)](https://travis-ci.org/azbykov/Bbot)
+Butsa Bot  [![Build Status](https://travis-ci.org/azbykov/Bbot.svg?branch=master)](https://travis-ci.org/azbykov/Bbot)  [![dependencies](https://david-dm.org/azbykov/Bbot.svg)](https://david-dm.org/azbykov/Bbot)
 ==
 
 ## Текущая версия 0.6.0
