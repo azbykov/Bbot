@@ -1,61 +1,51 @@
 'use strict';
 
-var log = require('../../lib/log')('task_friendly');
-var config = require('config').bot;
-var _ = require('lodash');
-var cheerio = require('cheerio');
-var Vow = require('vow');
+const log = require('../../lib/log')('task_friendly');
+const config = require('config').bot;
+const _ = require('lodash');
+const cheerio = require('cheerio');
+const Vow = require('vow');
+const reqreq = require('../../lib/reqreq');
 
-var params = _.defaults(config.friendly.params, {});
+const params = _.defaults(config.friendly.params, {});
 
 
-var requestParams = {
+const requestParams = {
 	uri: config.path.host + config.path.friendly,
+	method: 'POST',
 	form: params
 };
 
-var friendlyPromise = Vow.promise();
-
-var start = function() {
+const start = () => {
 	log.profiler.start('task_friendly');
-	var request = global.butsaRequest;
-	log.debug('[START] Friendly');
-	request.post(requestParams, function(error, res, body) {
-		if (error) {
-			log.error('Error request', error.message);
-			friendlyPromise.reject(error);
-		}
+	log.debug('[START] Send friendly games');
+	return reqreq().request('request friendly', requestParams, (res) => {
+		const body = res.body;
 
 		if (res.headers && res.headers.location) {
 			log.debug('Check status');
-			var uri = config.path.protocol + config.path.domain + res.headers.location;
-			request.get(uri, function(err, bRes, bBody) {
-				if (err) {
-					log.error('Error request', err.message);
-					friendlyPromise.reject(err);
-				}
-				var $ = cheerio.load(bBody);
-				var label = $('#mainarea_rigth table td table').first().text();
-				log.info(label);
-				friendlyPromise.fulfill(label);
+			const uri = config.path.protocol + config.path.domain + res.headers.location;
+			return reqreq().request('task_check_friendly_status', {uri}, (checkRes) => {
+				const bBody = checkRes.body;
+				const $ = cheerio.load(bBody);
+				const label = $('#mainarea_rigth table td table').first().text();
+				log.debug('[COMPLETE] Friendly' + label, log.profiler.end('task_friendly'));
+				return Vow.resolve(label);
 			});
 		} else {
-			var $ = cheerio.load(body);
-			var label = $('#mainarea_rigth table font').text();
+			const $ = cheerio.load(body);
+			const label = $('#mainarea_rigth table font').text();
 			if (config.friendly.alreadyDone === label) {
 
 				log.info(label);
 			} else {
-				log.error('Error repair all buildings. Result message:', label);
+				log.error('Error friendly games. Result message:', label);
 				log.debug('Error! ' + label + '. with params', requestParams.form);
 			}
 			log.debug('[COMPLETE] Friendly', log.profiler.end('task_friendly'));
-			friendlyPromise.fulfill(label);
+			return Vow.resolve(label);
 		}
 	});
-	return friendlyPromise;
 };
 
-module.exports = {
-	start: start
-};
+module.exports = {start};

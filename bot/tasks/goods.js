@@ -1,85 +1,66 @@
 'use strict';
 
-var log = require('../../lib/log')('task_goods');
-var config = require('config').bot;
-var _ = require('lodash');
-var cheerio = require('cheerio');
-var Vow = require('vow');
+const log = require('../../lib/log')('task_goods');
+const config = require('config').bot;
+const _ = require('lodash');
+const cheerio = require('cheerio');
+const Vow = require('vow');
+const reqreq = require('../../lib/reqreq');
 
-var params = _.defaults(config.goods.params, {});
+const params = _.defaults(config.goods.params, {});
 
 
-var requestParams = {
+let requestParams = {
 	uri: config.path.host
 };
 
-var goodsPromise = Vow.promise();
 
-var start = function() {
+const start = () => {
+	let label;
 	log.profiler.start('task_goods');
-	var request = global.butsaRequest;
 	log.debug('[START] Buy goods');
-	var currentGoods = Vow.promise();
-	request.get(requestParams, function(error, res, body) {
-		if (error) {
-			log.error('error request', error.message);
-			goodsPromise.reject(error);
-		}
-		var $ = cheerio.load(body);
-		var goods = $('img[title = "Товар на складе"]').next('b').children('a').text().split('.');
-		currentGoods.fulfill(_.parseInt(goods[0] + goods[1]));
-	});
-
-	currentGoods.then(function(currGoods) {
-		var maxGoods = config.goods.goods * config.goods.games;
+	return reqreq().request('task_goods', requestParams, ({body}) => {
+		let $ = cheerio.load(body);
+		const goods = $('img[title = "Товар на складе"]').next('b').children('a').text().split('.');
+		return _.parseInt(goods[0] + goods[1]);
+	}).then((currGoods) => {
+		const maxGoods = config.goods.goods * config.goods.games;
 		if (currGoods < maxGoods) {
 			requestParams = {
 				uri: requestParams.uri + config.path.goods,
+				method: 'POST',
 				form: params
 			};
 			requestParams.form.Amount = (maxGoods - currGoods);
-			request.post(requestParams, function(error, res, body) {
-				if (error) {
-					log.error('Error request', error.message);
-					goodsPromise.reject(error);
-				}
-
-				if (res.headers && res.headers.location) {
+			return reqreq().request('task_goods', requestParams, ({headers, body}) => {
+				if (headers && headers.location) {
 					log.debug('Check status');
-					var uri = config.path.protocol + config.path.domain + res.headers.location;
-					request.get(uri, function(err, bRes, bBody) {
-						if (err) {
-							log.error('Error request', err.message);
-							goodsPromise.reject(err);
-						}
-						var $ = cheerio.load(bBody);
-						var label = $('#mainarea_rigth table td table').first().text();
+					const uri = config.path.protocol + config.path.domain + res.headers.location;
+					reqreq().request('task_goods', {uri}, ({bBody}) => {
+						let $ = cheerio.load(bBody);
+						label = $('#mainarea_rigth table td table').first().text();
 
 						log.info(label + '(' + currGoods + ' ед.)' + '. Товара на складе '
 								+ (requestParams.form.Amount + currGoods) + ' ед.');
 
 						log.debug('[COMPLETE] Buy goods', log.profiler.end('task_goods'));
-						goodsPromise.fulfill(label);
+						return Vow.resolve(label);
 					});
 				} else {
-					var $ = cheerio.load(body);
-					var label = $('#mainarea_rigth table font').text();
+					let $ = cheerio.load(body);
+					label = $('#mainarea_rigth table font').text();
 					log.error('Error post buy goods message:' + label);
 					log.debug('Error! ' + label + '. with params', requestParams.form);
-					goodsPromise.fulfill(label);
+					return Vow.resolve(label);
 				}
 			});
 		} else {
-			var label = 'Товара на складе уже закупленно ' + currGoods + ' ед.';
+			label = 'Товара на складе уже закупленно ' + currGoods + ' ед.';
 			log.info(label);
 			log.debug('[COMPLETE] Buy goods', log.profiler.end('task_goods'));
-			goodsPromise.fulfill(label);
+			return Vow.resolve(label);
 		}
 	});
-
-	return goodsPromise;
 };
 
-module.exports = {
-	start: start
-};
+module.exports = {start};

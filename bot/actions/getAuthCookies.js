@@ -1,15 +1,17 @@
 'use strict';
 
-var log = require('../../lib/log')('authentication');
-var request = require('request');
-var config = require('config').bot;
-var Vow = require('vow');
+const log = require('../../lib/log')('authentication');
+let request = require('request');
+const config = require('config').bot;
+const Vow = require('vow');
+const reqq = require('../../lib/reqreq');
+require('../../lib/Team');
 
 global.butsaRequest = {};
 
-var cookies = Vow.promise();
+const cookies = Vow.promise();
 
-var requestParams = {
+const requestParams = {
 	uri: config.path.protocol + config.path.domain + config.path.auth,
 	method: 'POST',
 	form: {
@@ -22,20 +24,21 @@ var requestParams = {
 
 request = request.defaults({jar: true});
 
-var get = function() {
-	request(requestParams, function(error) {
+const get = () => {
+	request(requestParams, (error) => {
 		if (error) {
 			log.error('error request', error.message);
 			cookies.reject(error);
 		}
 		global.butsaRequest = request;
+		reqq({request});
 		cookies.fulfill(request);
 	});
 	return cookies;
 };
 
 module.exports = {
-	cookies: cookies,
-	get: get
+	cookies,
+	get
 };
 

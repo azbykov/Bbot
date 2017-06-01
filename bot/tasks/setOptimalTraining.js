@@ -1,13 +1,13 @@
 'use strict';
 
-var log = require('../../lib/log')('task_optimaze_training');
-var config = require('config').bot;
-var _ = require('lodash');
-var cheerio = require('cheerio');
-var Vow = require('vow');
-var optimizeTraining = require('../actions/optimizeTraining');
+const log = require('../../lib/log')('task_optimaze_training');
+const config = require('config').bot;
+const _ = require('lodash');
+const cheerio = require('cheerio');
+const Vow = require('vow');
+const optimizeTraining = require('../actions/optimizeTraining');
 
-var requestParams = {
+const requestParams = {
 	uri: config.path.host + config.path.playersAbilities,
 	qs: {
 		id: config.team.id,
@@ -16,32 +16,32 @@ var requestParams = {
 };
 
 
-var promise = Vow.promise();
+const promise = Vow.promise();
 
-var start = function() {
+const start = () => {
 	log.profiler.start('task_optimaze_training');
-	var request = global.butsaRequest;
+	const request = global.butsaRequest;
 	log.debug('[START] Optimaze training');
-	request(requestParams, function(error, res, body) {
+	request(requestParams, (error, res, body) => {
 		if (error) {
 			log.error('error request', error);
 			log.debug('error request with params', requestParams);
 			promise.reject(error);
 		}
-		var $ = cheerio.load(body);
+		const $ = cheerio.load(body);
 
-		var trainingTable = $('.maintable')[2];
+		let trainingTable = $('.maintable')[2];
 
 		trainingTable = $(trainingTable);
 
 
 
-		var playersTr = trainingTable.find('tr:not([bgcolor="#D3E1EC"]):not([class="header"])');
+		const playersTr = trainingTable.find('tr:not([bgcolor="#D3E1EC"]):not([class="header"])');
 
-		var trainingData = _.map(playersTr, function(player) {
-			var playerParams = $(player).find('td');
+		const trainingData = _.map(playersTr, (player) => {
+			const playerParams = $(player).find('td');
 
-			var skills = {
+			const skills = {
 				otbor: $(playerParams[6]).text().replace('\n', ''),
 				opeka: $(playerParams[7]).text().replace('\n', ''),
 				dribl: $(playerParams[8]).text().replace('\n', ''),
@@ -52,7 +52,7 @@ var start = function() {
 				tothnostYdara: $(playerParams[13]).text().replace('\n', '')
 			};
 
-			var lastTrainingVal = playerParams.find('.trained_ability').text().replace('\n', '');
+			const lastTrainingVal = playerParams.find('.trained_ability').text().replace('\n', '');
 
 			player.num = $(playerParams[0]).text().replace('\n', '');
 			player.name = $(playerParams[1]).text().replace('\n', '');
@@ -61,17 +61,17 @@ var start = function() {
 			player.id = $(playerParams[1]).find('a').attr('href').replace('/players/', '');
 			player.totalSkill = $(playerParams[5]).text().replace('\n', '');
 			player.skills = skills;
-			player.lastTraining = _.findKey(skills, function(chr) {
+			player.lastTraining = _.findKey(skills, (chr) => {
 				return chr === lastTrainingVal;
 			});
 			return player;
 		});
 
-		optimizeTraining(trainingData).then(function() {
+		optimizeTraining(trainingData).then(() => {
 			log.info('Тренировки обновлены. Посмотреть ' + config.path.host + config.path.training);
 			log.debug('[COMPLETE] Optimaze training', log.profiler.end('task_optimaze_training'));
 			promise.fulfill('done!');
-		}).fail(function(err) {
+		}).fail((err) => {
 			log.error('Что-то пошло не так. Ошибка: ' + err);
 			promise.reject(err);
 		});
@@ -80,6 +80,4 @@ var start = function() {
 	return promise;
 };
 
-module.exports = {
-	start: start
-};
+module.exports = {start};

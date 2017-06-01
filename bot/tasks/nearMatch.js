@@ -1,32 +1,22 @@
 'use strict';
 
-var log = require('../../lib/log')('task_near_match');
-var config = require('config').bot;
-var _ = require('lodash');
-var cheerio = require('cheerio');
-var Vow = require('vow');
-var buffer = require('../../lib/buffer');
-var getImage = require('../actions/getImage');
+const log = require('../../lib/log')('task_near_match');
+const config = require('config').bot;
+const _ = require('lodash');
+const cheerio = require('cheerio');
+const Vow = require('vow');
+const buffer = require('../../lib/buffer');
+const getImage = require('../actions/getImage');
+const team = require('../../lib/Team');
 
-var requestParams = {
-	uri: config.path.host + config.path.office
-};
-
-var promise = Vow.promise();
-
-var start = function() {
+const start = () => {
 	log.profiler.start('task_near_match');
-	var request = global.butsaRequest;
 	log.debug('[START] Get near Mathes');
 
-	request.get(requestParams, function(error, res, body) {
-		if (error) {
-			log.error('error request', error.message);
-			promise.reject(error);
-		}
-		var $ = cheerio.load(body);
+	return team.nearMatch.value.then((body) => {
+		const $ = cheerio.load(body);
 		// center
-		var table = $('.maintable').find('img[src="http://butsa.ru/images/icons/edit.png"]').parent();
+		let table = $('.maintable').find('img[src="http://butsa.ru/images/icons/edit.png"]').parent();
 		// a
 		table = $(table).parent();
 		//td
@@ -36,15 +26,15 @@ var start = function() {
 		// table
 		table = $(table).parent();
 
-		var tr = table.find('tr');
-		var result = [];
-		tr.each(function(i, match) {
+		const tr = table.find('tr');
+		let result = [];
+		tr.each((i, match) => {
 			match = $(match);
 			if (i > 0 && match.find('td:nth-child(7)').find('a').attr('href')) {
-				var rivalTeamLink = config.path.protocol + config.path.domain + match.find('td:nth-child(5) center a').attr('href');
-				var gameLink = config.path.protocol + config.path.domain + match.find('td:nth-child(7)').find('a').attr('href');
-				var gameId = gameLink.split('id=')[1];
-				var matchData = {
+				const rivalTeamLink = config.path.protocol + config.path.domain + match.find('td:nth-child(5) center a').attr('href');
+				const gameLink = config.path.protocol + config.path.domain + match.find('td:nth-child(7)').find('a').attr('href');
+				const gameId = gameLink.split('id=')[1];
+				const matchData = {
 					gid: match.find('td:nth-child(2)').find('center').text(),
 					gameDate: match.find('td:nth-child(3)').find('center').text(),
 					tournament: match.find('td:nth-child(4)').text(),
@@ -57,29 +47,27 @@ var start = function() {
 				result.push(matchData);
 			}
 		});
+
 		// Пушим для писем
 		buffer.matches = result;
 		buffer.matchesTitle = config.nearMatch.label;
-		getEmblem(result).always(function() {
+
+		return getEmblem(result).always(() => {
 			log.debug('[COMPLETE] Get near Match', log.profiler.end('task_near_match'));
-			promise.fulfill('done!');
 		});
 	});
-
-	return promise;
 };
 
-
-var getEmblem = function(matchesData) {
-	var imagesPromise = _.map(matchesData, function(matchData) {
-		var emblem = matchData.emblemLink;
+const getEmblem = (matchesData) => {
+	const imagesPromise = _.map(matchesData, (matchData) => {
+		const emblem = matchData.emblemLink;
 		if (emblem) {
 			return getImage(emblem);
 		}
 		return null;
 	});
-	return Vow.allResolved(imagesPromise).then(function(matchesEmblem) {
-		_.forEach(matchesData, function(match, i) {
+	return Vow.allResolved(imagesPromise).then((matchesEmblem) => {
+		_.forEach(matchesData, (match, i) => {
 			if (!(_.isEmpty(matchesEmblem) || _.isEmpty(matchesEmblem[i]))) {
 				match.emblem = matchesEmblem[i].valueOf();
 			}
@@ -87,6 +75,4 @@ var getEmblem = function(matchesData) {
 	});
 };
 
-module.exports = {
-	start: start
-};
+module.exports = {start};

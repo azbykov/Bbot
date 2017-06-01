@@ -1,13 +1,13 @@
 'use strict';
 
-var log = require('../../lib/log')('action_optimize_training');
-var config = require('config').bot;
-var Vow = require('vow');
-var _ = require('lodash');
-var strategyConfig = require('../../config/stratege.json');
+const log = require('../../lib/log')('action_optimize_training');
+const config = require('config').bot;
+const Vow = require('vow');
+const _ = require('lodash');
+const strategyConfig = require('../../config/stratege.json');
 
-var DEFAULT_PERCENT_TRAINING = 100;
-var ROLES = {
+const DEFAULT_PERCENT_TRAINING = 100;
+const ROLES = {
 	def: [
 		'rd',
 		'rwd',
@@ -32,7 +32,7 @@ var ROLES = {
 	]
 };
 
-var ABILITY_IDS = {
+const ABILITY_IDS = {
 	otbor: 1,
 	opeka: 2,
 	dribl: 3,
@@ -43,16 +43,16 @@ var ABILITY_IDS = {
 	tothnostYdara: 8
 };
 
-var DEFAULT_ABILITY = 'vinoslevost';
+const DEFAULT_ABILITY = 'vinoslevost';
 
-var form = {
+const form = {
 	step: 1,
 	act: 'select',
 	type: 'players/train',
 	firstpage: '/xml/players/train.php?'
 };
 
-var requestParams = {
+const requestParams = {
 	uri: config.path.host + config.path.training,
 	headers: {
 		'Content-Type': 'multipart/form-data'
@@ -64,15 +64,15 @@ var requestParams = {
 	form: form
 };
 
-module.exports = function(playersData) {
-	var promise = Vow.promise();
-	var request = global.butsaRequest;
+module.exports = (playersData) => {
+	const promise = Vow.promise();
+	const request = global.butsaRequest;
 
 	log.profiler.start('action_optimize_training');
 
 	requestParams.form = prepareFormData(playersData);
 
-	request.post(requestParams, function(error) {
+	request.post(requestParams, (error) => {
 		if (error) {
 			log.error('error request', error.message);
 			promise.reject(error);
@@ -82,16 +82,16 @@ module.exports = function(playersData) {
 	return promise;
 };
 
-var prepareFormData = function(playersData) {
-	var players = playersData;
-	var result = _.defaults(form, {
+const prepareFormData = (playersData) => {
+	const players = playersData;
+	const result = _.defaults(form, {
 		numrows: players.length,
 		AbilityID: [],
 		PlayerID: [],
 		PercentTrain: []
 	});
 
-	_.forEach(players, function(player, i) {
+	_.forEach(players, (player, i) => {
 		result.AbilityID[i] = getAbilityId(player);
 		result.PlayerID[i] = player.id;
 		result.PercentTrain[i] = DEFAULT_PERCENT_TRAINING;
@@ -99,16 +99,16 @@ var prepareFormData = function(playersData) {
 	return result;
 };
 
-var getAbilityId = function(player) {
-	var ability = DEFAULT_ABILITY;
-	var tacticByRole;
+const getAbilityId = (player) => {
+	let ability = DEFAULT_ABILITY;
+	let tacticByRole;
 	// goalkeeper filter
 	if (player.position === 'gk') {
 		return '';
 	}
 	// By Player Id
 	if (!_.isUndefined(strategyConfig.byPlayerId[player.id])) {
-		var strategyByPlayerId = strategyConfig.byPlayerId[player.id];
+		const strategyByPlayerId = strategyConfig.byPlayerId[player.id];
 		if (_.isString(strategyByPlayerId)) {
 			if (_.isUndefined(strategyConfig.tactics[strategyByPlayerId])) {
 				ability = ABILITY_IDS[strategyByPlayerId];
@@ -133,8 +133,8 @@ var getAbilityId = function(player) {
 	}
 
 	// By Role
-	var role = getRoleByPlayerPosition(player);
-	var tactic = strategyConfig.byRole[role];
+	const role = getRoleByPlayerPosition(player);
+	const tactic = strategyConfig.byRole[role];
 	if (!_.isUndefined(tactic) && !_.isUndefined(strategyConfig.tactics[tactic])) {
 		tacticByRole = strategyConfig.tactics[tactic];
 		ability = getStrategyFromArray(tacticByRole, player);
@@ -144,10 +144,10 @@ var getAbilityId = function(player) {
 };
 
 
-var getStrategyFromArray = function(strategy, player) {
-	var ability = _.isArray(strategy) ? strategy : strategy.ability;
+const getStrategyFromArray = (strategy, player) => {
+	const ability = _.isArray(strategy) ? strategy : strategy.ability;
 	if (_.isUndefined(strategy.min)) {
-		var lastIndex = _.findIndex(ability, function(el) {
+		const lastIndex = _.findIndex(ability, (el) => {
 			return el === player.lastTraining;
 		});
 
@@ -160,10 +160,10 @@ var getStrategyFromArray = function(strategy, player) {
 	}
 };
 
-var getRoleByPlayerPosition = function(player) {
-	var role;
+const getRoleByPlayerPosition = (player) => {
+	let role;
 
-	_.forEach(ROLES, function(rl, key) {
+	_.forEach(ROLES, (rl, key) => {
 		if (_.includes(rl, player.position)) {
 			role = key;
 			return false;
@@ -172,18 +172,18 @@ var getRoleByPlayerPosition = function(player) {
 	return role;
 };
 
-var getMinStrategy = function(player, availableAbility) {
-	var skills = player.skills;
+const getMinStrategy = (player, availableAbility) => {
+	const skills = player.skills;
 
-	var availableSkills = {};
-	_.forEach(skills, function(val, skill) {
+	const availableSkills = {};
+	_.forEach(skills, (val, skill) => {
 		if (_.includes(availableAbility, skill)) {
 			availableSkills[skill] = +val;
 		}
 	});
-	var minVal = _.sortBy(availableSkills)[0];
+	const minVal = _.sortBy(availableSkills)[0];
 
-	var minSkill = _.findKey(skills, function(skillVal) {
+	const minSkill = _.findKey(skills, (skillVal) => {
 		return +skillVal === minVal;
 	});
 

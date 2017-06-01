@@ -1,20 +1,14 @@
 {
   "byPlayerId": {
     "384288": "defence",
-    "595836": "min-ability",
-    "466563": "min-ability",
-    "499706": "min-ability",
-    "628359": "min-ability",
-    "614721": "min-ability",
-    "569507": "min-ability",
-    "466562": "min-ability",
-    "506492": "min-ability",
-    "519506": "min-ability"
+    "669892": "ball-control",
+    "569507": "ball-control",
+    "593309": "strike"
   },
   "byRole": {
-    "def": "defence",
-    "mid": "ball-control",
-    "cf": "strike"
+    "def": "min-ability",
+    "mid": "min-ability",
+    "cf": "min-ability"
   },
   "byPosition": [],
   "tactics": {
