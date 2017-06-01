@@ -10,7 +10,7 @@
     "lodash": "4.*",
     "moment": "2.*",
     "nodemailer": "4.*",
-    "request": "2.*",
+    "request": "2.81.0",
     "vow": "0.3.12",
     "winston": "2.3.*"
   },
