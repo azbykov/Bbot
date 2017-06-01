@@ -1,48 +1,27 @@
 'use strict';
 
-var log = require('../../lib/log')('task_financial_report');
-var config = require('config').bot;
-var _ = require('lodash');
-var cheerio = require('cheerio');
-var Vow = require('vow');
-var buffer = require('../../lib/buffer');
-var moment = require('moment');
-
-var requestParams = {
-	uri: config.path.host + config.path.financial
-};
+const log = require('../../lib/log')('task_financial_report');
+const config = require('config').bot;
+const _ = require('lodash');
+const Vow = require('vow');
+const buffer = require('../../lib/buffer');
+const moment = require('moment');
+const team = require('../../lib/Team');
 
 
-var promise = Vow.promise();
+const MAX_DAYS_RANGE = 1;
 
-var start = function() {
+const start = () => {
 	log.profiler.start('task_financial_report');
-	var request = global.butsaRequest;
 	log.debug('[START] Get financial report promise');
 
-	request.get(requestParams, function(error, res, body) {
-		if (error) {
-			log.error('error request', error.message);
-			promise.reject(error);
-		}
-		var $ = cheerio.load(body);
-
-		var table = $('.maintable').first();
-		var tr = table.find('tr');
-
-		var toDay = moment().format('DD.MM.YY');
-
-		var result = _.map(tr, function(trData) {
-			trData = _.compact($(trData).text().split('\n'));
-			return _.includes(trData[0], toDay) ? {
-				date: trData[0],
-				comment: trData[1],
-				money: trData[2],
-				contrAgent: trData[3],
-				balance: trData[4]
-			} : '';
+	const today = moment();
+	return team.finance.value.then((finance) => {
+		const result = finance.filter((operation) => {
+			const date = moment(operation.date, 'DD.MM.YY');
+			return today.diff(date, 'days') <= MAX_DAYS_RANGE;
 		});
-		// Пушим для писем
+
 		buffer.financialReport = {
 			report: _.compact(result),
 			settingsLink: config.path.host + config.path.financial
@@ -50,10 +29,8 @@ var start = function() {
 
 		buffer.financialReportTitle = config.financial.report.label;
 		log.debug('[COMPLETE] Get financial report promise', log.profiler.end('task_financial_report'));
-		promise.fulfill('done!');
+		return Vow.resolve('Done!');
 	});
-
-	return promise;
 };
 
 

@@ -1,27 +1,26 @@
 'use strict';
 
-var log = require('../lib/log')('daily-15');
-var authentication = require('./actions/getAuthCookies').get();
-var friendly = require('./tasks/friendly').start;
-var goods = require('./tasks/goods').start;
-var buildings = require('./tasks/buildings').start;
-var nearMatch = require('./tasks/nearMatch').start;
-var matchResult = require('./tasks/getLastResult').start;
-var trainingReport = require('./tasks/getTrainingReport').start;
-var trainingReportJunior = require('./tasks/getTrainingReportJunior').start;
-var financialReport = require('./tasks/financialReport').start;
-var setOptimalTraining = require('./tasks/setOptimalTraining').start;
-var checkMail = require('./tasks/checkMail').start;
+const log = require('../lib/log')('daily-15');
+const authentication = require('./actions/getAuthCookies').get();
+const friendly = require('./tasks/friendly').start;
+const goods = require('./tasks/goods').start;
+const buildings = require('./tasks/buildings').start;
+const nearMatch = require('./tasks/nearMatch').start;
+const matchResult = require('./tasks/getLastResult').start;
+const trainingReport = require('./tasks/getTrainingReport').start;
+const trainingReportJunior = require('./tasks/getTrainingReportJunior').start;
+const financialReport = require('./tasks/financialReport').start;
+const setOptimalTraining = require('./tasks/setOptimalTraining').start;
+const checkMail = require('./tasks/checkMail').start;
 
-var dailyMail = require('../lib/mailer').daily;
-var errorMail = require('../lib/mailer').error;
-var Vow = require('vow');
+const {daily: dailyMail, error: errorMail} = require('../lib/mailer');
+const Vow = require('vow');
 
 
 log.profiler.start('daily-15');
 // Step 1
 authentication
-	.then(function() {
+	.then(() => {
 		return Vow.allResolved([
 			friendly(),
 			goods(),
@@ -35,12 +34,12 @@ authentication
 			setOptimalTraining()
 		]);
 	})
-	.fail(function(error) {
+	.fail((error) => {
 		log.error('error: ', error.message);
 		errorMail(error);
-	}).then(function() {
+	}).then(() => {
 		dailyMail();
-	}).always(function() {
+	}).always(() => {
 		log.debug('[COMPLETE] Task daily-15', log.profiler.end('daily-15'));
 	})
 ;

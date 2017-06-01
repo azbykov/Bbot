@@ -1,33 +1,33 @@
 'use strict';
 
-var log = require('../../lib/log')('action_getGames');
-var config = require('config').bot;
-var Vow = require('vow');
-var cheerio = require('cheerio');
-var games = Vow.promise();
+const log = require('../../lib/log')('action_getGames');
+const config = require('config').bot;
+const Vow = require('vow');
+const cheerio = require('cheerio');
+const games = Vow.promise();
 
-var requestParams = {
+const requestParams = {
 	uri: config.path.protocol + config.path.domain + config.path.office
 };
 
-var get = function(request) {
+const get = (request) => {
 	log.profiler.start('action_getGames');
 	log.info('[START] Get games');
-	request.get(requestParams, function(error, res, body) {
+	request.get(requestParams, (error, res, body) => {
 		if (error) {
 			log.error('error request', error.message);
 		}
-		var gamesList = getGamesList(body);
+		const gamesList = getGamesList(body);
 		games.fulfill(gamesList);
 		log.info('[COMPLETE] Get games', log.profiler.end('action_getGames'));
 	});
 };
 
-var getGamesList = function(body) {
-	var $ = cheerio.load(body);
-	var result = [];
-	var inputs = $('input[name^="MatchID"]');
-	for (var key in inputs) {
+const getGamesList = (body) => {
+	const $ = cheerio.load(body);
+	const result = [];
+	const inputs = $('input[name^="MatchID"]');
+	for (let key in inputs) {
 		if (inputs[key].attribs) {
 			result.push(inputs[key].attribs.value);
 		}
@@ -36,7 +36,7 @@ var getGamesList = function(body) {
 };
 
 module.exports = {
-	games: games,
-	get: get
+	games,
+	get
 };
 

@@ -1,29 +1,26 @@
 'use strict';
 
-var log = require('../../lib/log')('action_addComment');
-var config = require('config').bot;
-var Vow = require('vow');
-var _ = require('lodash');
-var commentsConfig = config.comments;
 
-var MATCH_STATE = {
+const log = require('../../lib/log')('action_addComment');
+const config = require('config').bot;
+const Vow = require('vow');
+const _ = require('lodash');
+const commentsConfig = config.comments;
+
+const MATCH_STATE = {
 	1: 'win',
 	x: 'draw',
 	2: 'lose'
 };
 
-var getAvailableComments = function(state) {
-	return _.union(commentsConfig.common, commentsConfig[state] || []);
-};
+const getAvailableComments = (state) => _.union(commentsConfig.common, commentsConfig[state] || []);
 
-var getMatchResult = function($, match) {
-	var formPress = $('form[name="press"]');
-	var ourTeam = $(formPress.prev('b').find('a')[1]).text();
-	var result = match.result.split(':');
+const getMatchResult = ($, match) => {
+	const formPress = $('form[name="press"]');
+	const ourTeam = $(formPress.prev('b').find('a')[1]).text();
+	let result = match.result.split(':');
 
-	result = _.map(result, function(res) {
-		return Number(res);
-	});
+	result = _.map(result, (res) => Number(res));
 
 	if (result[0] > result[1]) {
 		result = (match.guestTeam.name === ourTeam) ? 2 : 1;
@@ -35,40 +32,39 @@ var getMatchResult = function($, match) {
 	return MATCH_STATE[result];
 };
 
-var addComment = function($, match) {
-
-	var comments = Vow.promise();
-	var formPress = $('form[name="press"]');
+const addComment = ($, match) => {
+	const comments = Vow.promise();
+	const formPress = $('form[name="press"]');
 
 	if (_.isUndefined(formPress[0])) {
 		log.info('Невозможно оставить комментария. Ссылка: ' + match.path);
 		comments.fulfill('Can\'t send comments. Match id ' + match.path);
 	} else {
-		var request = global.butsaRequest;
-		var requestParams = {
+		const request = global.butsaRequest;
+		const requestParams = {
 			uri: match.path,
 			form: {}
 		};
-		var matchResult = getMatchResult($, match);
-		var availableComments = getAvailableComments(matchResult);
+		const matchResult = getMatchResult($, match);
+		const availableComments = getAvailableComments(matchResult);
 
-		var results = {};
-		var inputs = formPress.find('input[type="hidden"]');
-		_.forEach(inputs, function(input) {
-			var inputName = input.attribs.name;
-			var inputValue = input.attribs.value;
+		const results = {};
+		const inputs = formPress.find('input[type="hidden"]');
+		_.forEach(inputs, (input) => {
+			const inputName = input.attribs.name;
+			const inputValue = input.attribs.value;
 			results[inputName] = inputValue;
 		});
 
-		var textAreas = formPress.find('textarea');
+		const textAreas = formPress.find('textarea');
 
-		_.forEach(textAreas, function(textarea) {
-			var textareaName = textarea.attribs.name;
+		_.forEach(textAreas, (textarea) => {
+			const textareaName = textarea.attribs.name;
 			results[textareaName] = availableComments[_.random(availableComments.length - 1)];
 		});
 		requestParams.form = results;
 
-		request.post(requestParams, function(err) {
+		request.post(requestParams, (err) => {
 			if (err) {
 				log.warn('Can\'t send comments. Link: ' + match.path + '. Error: ' + err);
 				comments.fulfill('Can\'t send comments. Link: ' + match.path + '. Error: ' + err);

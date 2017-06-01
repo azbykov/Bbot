@@ -1,13 +1,13 @@
 'use strict';
 
-var Vow = require('vow');
-var request = require('request');
+const Vow = require('vow');
+const request = require('request');
 
-var getImage = function(url) {
-	var imageSrc = Vow.promise();
+const getImage = (url) => {
+	const imageSrc = Vow.promise();
 
-	var options = {
-		url: url,
+	const options = {
+		url,
 		headers: {
 			'Content-Type': 'charset=utf-8',
 			'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -18,7 +18,7 @@ var getImage = function(url) {
 		gzip: true
 	};
 
-	request(options, function(err, res, body) {
+	request(options, (err, res, body) => {
 		if (err) {
 			console.log('Error!!', err);
 			return imageSrc.reject(err);

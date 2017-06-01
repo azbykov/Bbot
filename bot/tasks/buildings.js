@@ -1,47 +1,41 @@
 'use strict';
 
-var log = require('../../lib/log')('task_building');
-var config = require('config').bot;
-var _ = require('lodash');
-var cheerio = require('cheerio');
-var Vow = require('vow');
+const log = require('../../lib/log')('task_building');
+const config = require('config').bot;
+const _ = require('lodash');
+const cheerio = require('cheerio');
+const Vow = require('vow');
+const reqreq = require('../../lib/reqreq');
 
-var params = _.defaults(config.buildings.params, {});
+const params = _.defaults(config.buildings.params, {});
 
 
-var requestParams = {
+let requestParams = {
 	uri: config.path.host + config.path.buildings,
+	method: 'POST',
 	form: params
 };
 
-var buildings = Vow.promise();
+let label;
 
-var start = function() {
+var start = () => {
 	log.profiler.start('task_building');
-	var request = global.butsaRequest;
 	log.debug('[START] Repair buildings');
-	request.post(requestParams, function(error, res, body) {
-		if (error) {
-			log.error('Eror request', error.message);
-			buildings.reject(error);
-		}
+	return reqreq().request('task_building', requestParams, (res) => {
+		const body = res.body;
 
 		if (res.headers && res.headers.location) {
 			log.debug('Check status');
-			var uri = config.path.protocol + config.path.domain + res.headers.location;
-			request.get(uri, function(err, bRes, bBody) {
-				if (err) {
-					log.error('Eror request', err.message);
-					buildings.reject(err);
-				}
-				var $ = cheerio.load(bBody);
-				var label = $('#mainarea_rigth table td table').first().text();
+			let uri = config.path.protocol + config.path.domain + res.headers.location;
+			return reqreq().request('task_building', {uri}, ({bBody}) => {
+				let $ = cheerio.load(bBody);
+				label = $('#mainarea_rigth table td table').first().text();
 				log.info(label);
-				buildings.fulfill(label);
+				return Vow.resolve(label);
 			});
 		} else {
-			var $ = cheerio.load(body);
-			var label = $('#mainarea_rigth table font').text();
+			let $ = cheerio.load(body);
+			label = $('#mainarea_rigth table font').text();
 			if (config.buildings.alreadyDone === label) {
 				log.info(label);
 			} else {
@@ -49,13 +43,9 @@ var start = function() {
 				log.debug('Error! ' + label + '. with params', requestParams.form);
 			}
 			log.debug('[COMPLETE] Repair buildings', log.profiler.end('task_building'));
-			buildings.fulfill(label);
+			return Vow.resolve(label);
 		}
 	});
-
-	return buildings;
 };
 
-module.exports = {
-	start: start
-};
+module.exports = {start};
