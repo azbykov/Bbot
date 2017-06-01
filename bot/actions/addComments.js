@@ -1,5 +1,6 @@
 'use strict';
 
+
 const log = require('../../lib/log')('action_addComment');
 const config = require('config').bot;
 const Vow = require('vow');

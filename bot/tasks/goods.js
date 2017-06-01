@@ -35,7 +35,7 @@ const start = () => {
 			return reqreq().request('task_goods', requestParams, ({headers, body}) => {
 				if (headers && headers.location) {
 					log.debug('Check status');
-					const uri = config.path.protocol + config.path.domain + res.headers.location;
+					const uri = config.path.protocol + config.path.domain + headers.location;
 					reqreq().request('task_goods', {uri}, ({bBody}) => {
 						let $ = cheerio.load(bBody);
 						label = $('#mainarea_rigth table td table').first().text();

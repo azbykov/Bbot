@@ -27,12 +27,7 @@ var start = () => {
 		if (res.headers && res.headers.location) {
 			log.debug('Check status');
 			let uri = config.path.protocol + config.path.domain + res.headers.location;
-			return reqreq().request('task_building', {uri}, (bres) => {
-				const bBody = bres.body;
-				if (err) {
-					log.error('Eror request', err.message);
-					return Vow.reject(err);
-				}
+			return reqreq().request('task_building', {uri}, ({bBody}) => {
 				let $ = cheerio.load(bBody);
 				label = $('#mainarea_rigth table td table').first().text();
 				log.info(label);

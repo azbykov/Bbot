@@ -13,7 +13,7 @@ const financialReport = require('./tasks/financialReport').start;
 const setOptimalTraining = require('./tasks/setOptimalTraining').start;
 const checkMail = require('./tasks/checkMail').start;
 
-const {daily: dailyMail, error: errorMail}  = require('../lib/mailer');
+const {daily: dailyMail, error: errorMail} = require('../lib/mailer');
 const Vow = require('vow');
 
 

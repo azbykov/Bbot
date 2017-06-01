@@ -3,7 +3,6 @@
 const log = require('../../lib/log')('task_financial_report');
 const config = require('config').bot;
 const _ = require('lodash');
-const cheerio = require('cheerio');
 const Vow = require('vow');
 const buffer = require('../../lib/buffer');
 const moment = require('moment');
