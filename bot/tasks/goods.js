@@ -36,7 +36,7 @@ const start = () => {
 				if (headers && headers.location) {
 					log.debug('Check status');
 					const uri = config.path.protocol + config.path.domain + headers.location;
-					reqreq().request('task_goods', {uri}, ({bBody}) => {
+					reqreq().request('task_goods', {uri}, ({body: bBody}) => {
 						let $ = cheerio.load(bBody);
 						label = $('#mainarea_rigth table td table').first().text();
 
@@ -51,6 +51,11 @@ const start = () => {
 					label = $('#mainarea_rigth table font').text();
 					log.error('Error post buy goods message:' + label);
 					log.debug('Error! ' + label + '. with params', requestParams.form);
+
+					if (label === 'Не хватает денег') {
+						log.info(`${label} на покупку товаров`);
+					}
+
 					return Vow.resolve(label);
 				}
 			});
