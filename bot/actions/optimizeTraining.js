@@ -7,6 +7,7 @@ const _ = require('lodash');
 const strategyConfig = require('../../config/stratege.json');
 
 const DEFAULT_PERCENT_TRAINING = 100;
+const GOALKEEPER_ROLE = 'gk';
 const ROLES = {
 	def: [
 		'rd',
@@ -103,7 +104,7 @@ const getAbilityId = (player) => {
 	let ability = DEFAULT_ABILITY;
 	let tacticByRole;
 	// goalkeeper filter
-	if (player.position === 'gk') {
+	if (player.position === GOALKEEPER_ROLE) {
 		return '';
 	}
 	// By Player Id

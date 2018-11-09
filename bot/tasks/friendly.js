@@ -36,7 +36,6 @@ const start = () => {
 			const $ = cheerio.load(body);
 			const label = $('#mainarea_rigth table font').text();
 			if (config.friendly.alreadyDone === label) {
-
 				log.info(label);
 			} else {
 				log.error('Error friendly games. Result message:', label);

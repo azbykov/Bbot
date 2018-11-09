@@ -8,34 +8,24 @@ const Vow = require('vow');
 const buffer = require('../../lib/buffer');
 const getImage = require('../actions/getImage');
 const addComments = require('../actions/addComments');
+const reqreq = require('../../lib/reqreq');
 
 let requestParams = {
 	uri: config.path.host
 };
 
-const promise = Vow.promise();
-
 const start = () => {
 	log.profiler.start('task_get_last_result');
-	const request = global.butsaRequest;
 	log.debug('[START] Result match');
 
 	log.profiler.start('get_match_id');
 	log.debug('[START] Match id');
 	const matchIdPromise = getMatchIdPromise();
 
-
-
 	matchIdPromise.then((matchPath) => {
-		log.debug('[COMPLETE] Match id', log.profiler.end('get_match_id'));
-//		matchPath = '/matches/7675569';
+		log.debug(`[COMPLETE] Match id ${matchPath}`, log.profiler.end('get_match_id'));
 		requestParams.uri = config.path.protocol + config.path.domain + matchPath;
-		request.get(requestParams, (error, res, body) => {
-			if (error) {
-				log.error('error request', error);
-				promise.reject(error);
-			}
-
+		return reqreq().request('task_get_last_result', requestParams, ({body}) => {
 			let $ = cheerio.load(body);
 
 			const table = $('#mainarea_rigth');
@@ -68,37 +58,30 @@ const start = () => {
 			});
 
 			const legendaTr = $(table.find('table')[1]).find('tr');
-			let legenda = [];
 
-			_.forEach(legendaTr, (event) => {
+			matchResult.legenda = _.map(legendaTr, (event) => {
 				event = $(event);
 
-				const result = {
+				return {
 					time: event.find('td:nth-child(1)').text(),
 					eventTypeLink: host + event.find('td:nth-child(2) img').attr('src'),
 					away: event.find('td:nth-child(3) img').attr('src').indexOf('away') > -1,
 					result: event.find('td:nth-child(3)').text()
 				};
-
-				legenda.push(result);
 			});
 
-			matchResult.legenda = legenda;
-
 			// Пушим для писем
-			Vow.allResolved([
+			return Vow.allResolved([
 				getImgPromise,
 				addComments($, matchResult)
 			]).always(() => {
 				buffer.matchResult = matchResult;
 				buffer.matchResultTitle = config.resultMatches.label;
 				log.debug('[COMPLETE] Result match', log.profiler.end('task_get_last_result'));
-				promise.fulfill('done!');
+				return Vow.resolve('done');
 			});
 		});
 	});
-
-	return promise;
 };
 
 
