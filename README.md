@@ -1,7 +1,7 @@
 Butsa Bot  [![Build Status](https://travis-ci.org/azbykov/Bbot.svg?branch=master)](https://travis-ci.org/azbykov/Bbot)  [![dependencies](https://david-dm.org/azbykov/Bbot.svg)](https://david-dm.org/azbykov/Bbot)
 ==
 
-## Текущая версия 0.6.0
+## Текущая версия 0.6.2
 * заявка на тов. матч
 * покупка товара
 * ремонт зданий
