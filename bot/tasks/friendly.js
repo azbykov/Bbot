@@ -9,7 +9,6 @@ const reqreq = require('../../lib/reqreq');
 
 const params = _.defaults(config.friendly.params, {});
 
-
 const requestParams = {
 	uri: config.path.host + config.path.friendly,
 	method: 'POST',
@@ -19,7 +18,7 @@ const requestParams = {
 const start = () => {
 	log.profiler.start('task_friendly');
 	log.debug('[START] Send friendly games');
-	return reqreq().request('request friendly', requestParams, (res) => {
+	return reqreq().request('request_friendly', requestParams, (res) => {
 		const body = res.body;
 
 		if (res.headers && res.headers.location) {
