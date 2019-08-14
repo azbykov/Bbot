@@ -12,7 +12,7 @@ module.exports = {
 		},
 
 		path: {
-			protocol: 'http://',
+			protocol: 'https://',
 			domain: 'www.butsa.ru',
 			host: 'https://www.butsa.ru',
 			auth: '/index.php?login=1',
