@@ -21,12 +21,6 @@ const start = () => {
 		const trainingProgress = getTrainingObj(trainingObject, $);
 		const trainingRegress = getTrainingObj($(table[1]).find('tr'), $);
 
-		console.log('------ START -----');
-		console.log('getTrainingReport.js; line: 25');
-		console.log(trainingObject.html());
-		console.log('------- END -------');
-
-
 		buffer.training = {
 			progress: trainingProgress,
 			regress: trainingRegress,
