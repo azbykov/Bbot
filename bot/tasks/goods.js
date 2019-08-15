@@ -16,7 +16,7 @@ let requestParams = {
 
 
 const start = () => {
-	let label;
+	let label = '';
 	log.profiler.start('task_goods');
 	log.debug('[START] Buy goods');
 	return reqreq().request('task_goods', requestParams, ({body}) => {
@@ -44,7 +44,6 @@ const start = () => {
 								+ (requestParams.form.Amount + currGoods) + ' ед.');
 
 						log.debug('[COMPLETE] Buy goods', log.profiler.end('task_goods'));
-						return Vow.resolve(label);
 					});
 				} else {
 					let $ = cheerio.load(body);
@@ -55,9 +54,8 @@ const start = () => {
 					if (label === 'Не хватает денег') {
 						log.info(`${label} на покупку товаров`);
 					}
-
-					return Vow.resolve(label);
 				}
+				return Vow.resolve(label);
 			});
 		} else {
 			label = 'Товара на складе уже закупленно ' + currGoods + ' ед.';
