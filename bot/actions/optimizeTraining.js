@@ -169,6 +169,7 @@ const getRoleByPlayerPosition = (player) => {
 			role = key;
 			return false;
 		}
+		return role;
 	});
 	return role;
 };

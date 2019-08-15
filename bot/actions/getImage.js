@@ -24,7 +24,7 @@ const getImage = (url) => {
 			log.error('Error!!', err);
 			return imageSrc.reject(err);
 		}
-		imageSrc.fulfill(new Buffer(body.toString(), 'binary').toString('base64'));
+		return imageSrc.fulfill(new Buffer(body.toString(), 'binary').toString('base64'));
 	});
 	return imageSrc;
 };
