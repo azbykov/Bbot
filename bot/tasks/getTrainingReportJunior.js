@@ -18,7 +18,7 @@ const start = () => {
 
 		const table = $('#mainarea_rigth table');
 
-		const trainingObject = table.first().children('tr');
+		const trainingObject = table.first().find('tr');
 		const trainingProgress = getTrainingObj(trainingObject, $);
 
 

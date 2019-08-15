@@ -13,12 +13,13 @@ const start = () => {
 	log.debug('[START] Get training');
 
 	return team.players.value.then((body) => {
+
 		const $ = cheerio.load(body);
 		const table = $('#mainarea_rigth table');
 
-		const trainingObject = table.first().children('tr');
+		const trainingObject = table.first().find('tr');
 		const trainingProgress = getTrainingObj(trainingObject, $);
-		const trainingRegress = getTrainingObj($(table[1]).children('tr'), $);
+		const trainingRegress = getTrainingObj($(table[1]).find('tr'), $);
 
 		buffer.training = {
 			progress: trainingProgress,

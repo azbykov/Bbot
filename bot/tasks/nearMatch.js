@@ -9,6 +9,8 @@ const buffer = require('../../lib/buffer');
 const getImage = require('../actions/getImage');
 const team = require('../../lib/Team');
 
+const EDIT_IMG = `${config.path.protocol}butsa.ru/images/icons/edit.png`;
+
 const start = () => {
 	log.profiler.start('task_near_match');
 	log.debug('[START] Get near Mathes');
@@ -16,7 +18,7 @@ const start = () => {
 	return team.nearMatch.value.then((body) => {
 		const $ = cheerio.load(body);
 		// center
-		let table = $('.maintable').find('img[src="http://butsa.ru/images/icons/edit.png"]').parent();
+		let table = $('.maintable').find(`img[src="${EDIT_IMG}"]`).parent();
 		// a
 		table = $(table).parent();
 		//td
@@ -25,6 +27,7 @@ const start = () => {
 		table = $(table).parent();
 		// table
 		table = $(table).parent();
+
 
 		const tr = table.find('tr');
 		let result = [];
@@ -47,6 +50,7 @@ const start = () => {
 				result.push(matchData);
 			}
 		});
+
 
 		// Пушим для писем
 		buffer.matches = result;

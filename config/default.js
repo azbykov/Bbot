@@ -12,9 +12,9 @@ module.exports = {
 		},
 
 		path: {
-			protocol: 'http://',
+			protocol: 'https://',
 			domain: 'www.butsa.ru',
-			host: 'http://www.butsa.ru',
+			host: 'https://www.butsa.ru',
 			auth: '/index.php?login=1',
 			office: '/office',
 			order: '/builder',
@@ -109,11 +109,14 @@ module.exports = {
 				'Может быть'
 			],
 			win: [
-				'Ура!!! С подеой нас',
+				'Ура!!! С победой нас',
 				'3 очка не пахнут) Ребята молодцы, боролись до конца',
 				'Мы должны были выигрывать. Так что все закономерно',
 				'Сегодня нам повезло больше',
 				'Победа как победа',
+				'Парни молодцы, люблю их',
+				'Вообще игра получилась интересной, мне понравилось',
+				'ЛИВАР!!!ЛИВАР!!!ЛИВАР!!!'
 			],
 			draw: [
 				'ничья - это тоже результат',
@@ -146,22 +149,7 @@ module.exports = {
 			file: {
 				level: 'debug',
 				filename: path.join(__dirname, '../log/', 'node.log'),
-				json: false,
-				timestamp: function() {
-					var date = new Date();
-					var dateArr = [
-						date.getDate(),
-						date.getMonth()+1,
-						date.getFullYear()
-					];
-					var timeArr =[
-						('00' + date.getHours()).slice(-2),
-						('00' + date.getMinutes()).slice(-2),
-						('00' + date.getSeconds()).slice(-2),
-						('000' + date.getMilliseconds()).slice(-3)
-					];
-					return dateArr.join('.') + ' ' + timeArr.join(':')
-				}
+				json: false
 			}
 		}
 	},

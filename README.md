@@ -1,7 +1,7 @@
 Butsa Bot  [![Build Status](https://travis-ci.org/azbykov/Bbot.svg?branch=master)](https://travis-ci.org/azbykov/Bbot)  [![dependencies](https://david-dm.org/azbykov/Bbot.svg)](https://david-dm.org/azbykov/Bbot)
 ==
 
-## Текущая версия 0.6.2
+## Текущая версия 0.6.3
 * заявка на тов. матч
 * покупка товара
 * ремонт зданий
@@ -28,12 +28,14 @@ npm install
 ```js
 bot: {
 	auth: {
+		// логин и пароль к butsa.ru
 		login: LOGIN,
 		password: PASSWORD
 	},
 	mail: {
 		service: MAIL_SERVER	// например 'mail.ru',
 		auth: {
+		// логин и пароль к почтовому серверу, например 'mail.ru'
 			user: LOGIN,
 			pass: PASSWORD
 		}
