@@ -2,6 +2,7 @@
 
 const Vow = require('vow');
 const request = require('request');
+const log = require('../../lib/log')('action_getImage');
 
 const getImage = (url) => {
 	const imageSrc = Vow.promise();
@@ -20,7 +21,7 @@ const getImage = (url) => {
 
 	request(options, (err, res, body) => {
 		if (err) {
-			console.log('Error!!', err);
+			log.error('Error!!', err);
 			return imageSrc.reject(err);
 		}
 		imageSrc.fulfill(new Buffer(body.toString(), 'binary').toString('base64'));
