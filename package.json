@@ -1,6 +1,6 @@
 {
   "name": "bbot",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Butsa Bot",
   "dependencies": {
     "cheerio": "1.0.0-rc.3",
