@@ -13,7 +13,7 @@
     "request": "2.88.0",
     "vow": "0.3.12",
     "winston": "3.2.1",
-    "snyk": "^1.316.1"
+    "snyk": "^1.667.0"
   },
   "devDependencies": {
     "eslint": "6.1.0"
