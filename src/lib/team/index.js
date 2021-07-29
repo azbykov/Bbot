@@ -23,7 +23,7 @@ class CreateManager {
 			promise = Promise.resolve(this._value);
 		} else if (!this.provider) {
 			promise = Promise.reject('Provider not registred');
-		} else if (this.pendingPromise && !this.pendingPromise.isResolved()) {
+		} else if (this.pendingPromise) {
 			log.debug('from pending promise');
 			return this.pendingPromise;
 		} else {

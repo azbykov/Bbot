@@ -40,7 +40,7 @@ authentication()
 		dailyMail();
 	})
 	.catch((error) => {
-		log.error('finaly error: ', {error: JSON.stringify(error.message)});
+		log.error('finaly error: ', {error: error.message});
 		errorMail(error);
 	}).finally(() => {
 		log.debug('[COMPLETE] Task daily-15', log.profiler.end('daily-15'));
