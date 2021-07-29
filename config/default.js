@@ -1,4 +1,6 @@
-var path = require('path');
+'use strict';
+
+const path = require('path');
 
 module.exports = {
 	bot: {
@@ -11,31 +13,11 @@ module.exports = {
 			password: 'password'
 		},
 
-		path: {
-			protocol: 'https://',
-			domain: 'www.butsa.ru',
-			host: 'https://www.butsa.ru',
-			auth: '/index.php?login=1',
-			office: '/office',
-			order: '/builder',
-			orderParams: '/test.php?start_debug=1',
-			friendly: '/xml/office/organizer.php?type=office/organizer&act=friendly',
-			goods: '/xml/finance/shop.php?type=finance/shop&act=buy',
-			buildings: '/xml/team/buildings.php?type=team/buildings&act=repairall2',
-			matches: '/matches',
-			training: '/xml/players/train.php',
-			trainingJunior: '/xml/school/train.php',
-			financial: '/finances/report.php',
-			mail: '/xml/office/mail.php',
-			playersAbilities: '/xml/players/roster.php'
-		},
-
 		team: {
 			name: '',
 			id: ''
 		},
 
-//		orderName: 'test'
 		orderName: 'auto',
 		friendly: {
 			label: 'Отправка тов. матча',
@@ -96,46 +78,7 @@ module.exports = {
 		},
 
 		comments: {
-			label: 'Пресс-центр',
-			common: [
-				'Получилась хорошая игра',
-				'Все супер',
-				'Игра была равной',
-				'Спасибо сопернику',
-				'Надо отдать должное сопернику - они играли на высоте',
-				'Нам надо выиграть, чтобы достичь наших целей',
-				'Да',
-				'Нет',
-				'Может быть'
-			],
-			win: [
-				'Ура!!! С победой нас',
-				'3 очка не пахнут) Ребята молодцы, боролись до конца',
-				'Мы должны были выигрывать. Так что все закономерно',
-				'Сегодня нам повезло больше',
-				'Победа как победа',
-				'Парни молодцы, люблю их',
-				'Вообще игра получилась интересной, мне понравилось',
-				'ЛИВАР!!!ЛИВАР!!!ЛИВАР!!!'
-			],
-			draw: [
-				'ничья - это тоже результат',
-				'Мы должны были выигрывать!',
-				'Мы просто потеряли 2 очка',
-				'В такой игре нам сложно было выиграть',
-				'Я рад и 1 очку в данной ситуации',
-				'Нам немного не хватило удачи'
-			],
-			lose: [
-				'Конечно я не расчитывал проигрывать сегодня',
-				'Мы должны были выигрывать!',
-				'Мы просто потеряли  очки',
-				'В такой игре нам сложно было выиграть',
-				'В следующий раз мы будем более подготовлены',
-				'Еще одно поражение, ну и ладно',
-				'Нам немного не хватило удачи',
-				'Конечно, ребята немного расстроены, но ничего, мы готовы идти дальше',
-			]
+			label: 'Пресс-центр'
 		},
 		stubDir: path.join(__dirname, '../bot/stubs/')
 	},

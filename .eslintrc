@@ -4,6 +4,17 @@ env:
   es6: true
   node: true
 
+parserOptions:
+  ecmaVersion: 2021
+  babelOptions:
+    configFile: "./.babelrc"
+
+parser:
+  "@babel/eslint-parser"
+
+plugins:
+  ["@babel"]
+
 extends:
   "eslint:recommended"
 
@@ -72,5 +83,4 @@ rules:
   space-before-function-paren: [2, "never"]
   space-infix-ops: 2
   space-unary-ops: [2, {words: true, nonwords: false}]
-  strict: [2, "global"]
   yoda: [2, "never"]

@@ -6,4 +6,4 @@
 PATH=/home/www/bbot
 
  #### Здесь начинаются задания
-NODE_ENV=production NODE_CONFIG_DIR=$PATH/config /usr/bin/node $PATH/bot/daily-15.js
+NODE_ENV=production NODE_CONFIG_DIR=$PATH/config /usr/bin/node $PATH/src/bot/daily-15.js
