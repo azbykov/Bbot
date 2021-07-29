@@ -1,6 +1,6 @@
 {
   "name": "bbot",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "description": "Butsa Bot",
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
@@ -24,7 +24,7 @@
     "nock": "^13.1.0"
   },
   "scripts": {
-	"prod": "NODE_ENV=production npm run dayly",
+    "prod": "NODE_ENV=production npm run dayly",
     "dayly": "node src/bot/daily-15.js",
     "test": "eslint src/",
     "snyk-protect": "snyk protect",
