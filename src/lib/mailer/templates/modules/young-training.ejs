@@ -1,0 +1,51 @@
+<h2>
+	<%= content.trainingTitleJunior%>
+	<a style="font-size: 12px; font-weight: normal" href="<%= content.trainingJunior.settingsLink%>">Настроить тренировки</a>
+</h2>
+<%= content.trainingJunior.trainingsLeft%><br/>
+<table class="table table-striped">
+	<thead>
+	<tr>
+		<% for(var i = 0; i < content.trainingJunior.title.length; i++) { %>
+		<th>
+			<%= content.trainingJunior.title[i]%>
+		</th>
+		<% } %>
+	</tr>
+	</thead>
+
+	<tbody class="progressTable">
+	<% for(var i = 0; i < content.trainingJunior.progress.length; i++) { %>
+	<tr class="<% if (parseFloat(content.trainingJunior.progress[i]['attrUp']) === 0) {%>danger<%}%>">
+		<td>
+			<a href="<%= content.trainingJunior.progress[i]['link'] %>" target="_blank"><%= content.trainingJunior.progress[i]['name']%></a>
+		</td>
+		<td>
+			<%= content.trainingJunior.progress[i]['pos']%>
+		</td>
+		<td>
+			<%= content.trainingJunior.progress[i]['old']%>
+		</td>
+		<td>
+			<%= content.trainingJunior.progress[i]['mas']%>
+		</td>
+		<td>
+			<%= content.trainingJunior.progress[i]['attrName']%>
+				<% if (content.trainingJunior.progress[i]['talent']) {%>
+					<% for(var key in content.trainingJunior.progress[i]['talent']) { %>
+						<div>
+							<strong><%= key%></strong>: <%= content.trainingJunior.progress[i]['talent'][key]%>
+						</div>
+					<% } %>
+				<% } %>
+		</td>
+		<td>
+			<%= content.trainingJunior.progress[i]['attrUp']%>
+		</td>
+		<td>
+			<%= content.trainingJunior.progress[i]['attrTotal']%>
+		</td>
+	</tr>
+	<% } %>
+	</tbody>
+</table>

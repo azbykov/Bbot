@@ -1,17 +1,18 @@
 Butsa Bot  [![Build Status](https://travis-ci.org/azbykov/Bbot.svg?branch=master)](https://travis-ci.org/azbykov/Bbot)  [![dependencies](https://david-dm.org/azbykov/Bbot.svg)](https://david-dm.org/azbykov/Bbot)
 ==
 
-## Текущая версия 0.6.3
+## Текущая версия 0.7.0
 * заявка на тов. матч
 * покупка товара
 * ремонт зданий
-* email оповещение о статусе текущих задач
-* email оповещение о результатах матчей
-* email оповещение о треннировках
-* email оповещение о финансах
+* email оповещение
+  * о статусе текущих задач
+  * о результатах матчей
+  * о треннировках
+  * о финансах
+  * о новых сообщениях
 * комментарии после матча
 * расчет оптимальных тренировок
-* Оповещение о новых сообщениях
 * Расчет тренировок таланта
 
 
@@ -56,29 +57,15 @@ PATH= PATH_TO_BBOT_DIRECTORY
 
 ```
 
-
 ## Запуск
 ``
-node bot/daily-15
+npm run daily
 ``
-
 
 ## CRON
 ``
 crontab cron/cron.sh
 ``
-
-## Задачи
-
-#### Заявка на тов. матч
-Отправляет заявку на тов матч `bot/tasks/friendly.js`
-
-#### Покупка товара
-Покупка товара `bot/tasks/goods.js`
-
-#### Ремонт зданий
-Ремонт зданий `bot/tasks/buildings.js`
-
 
 ## Road map
 ### v1.0.0
