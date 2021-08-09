@@ -19,5 +19,6 @@ module.exports = {
 	deposit: '/finances/deposit',
 	makeDeposit: '/finances/deposit/make/',
 	mail: '/xml/office/mail.php',
-	playersAbilities: '/xml/players/roster.php'
+	playersAbilities: '/xml/players/roster.php',
+	tickets: '/stadium/?act=tickets'
 };
