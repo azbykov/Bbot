@@ -7,13 +7,15 @@ const {notification} = require('../../lib/notification');
 const BonusPointsAlert = require('../../lib/alerts/bonus-points');
 const TalentAlert = require('../../lib/alerts/talent');
 const DepositAlert = require('../../lib/alerts/deposit');
+const InjureOperationAlert = require('../../lib/alerts/injure-operation');
 
 const DEFAULT_MAX_DEPOSIT_SUM = 240000000;
+const DEFAULT_OPERATION_LIMIT = 15;
 
-const getPointsAlerts = async() => {
+const getPointsAndInjureAlerts = async() => {
 	const {roster} = await team.club.value;
 
-	roster.forEach(({points, name, id, link}) => {
+	roster.forEach(({points, name, id, link, injure}) => {
 		const [current, levelPoint] = points.split('(');
 		const levelPointNum = levelPoint.replace(')', '');
 		if (Number(current) >= Number(levelPointNum)) {
@@ -22,6 +24,14 @@ const getPointsAlerts = async() => {
 				id,
 				link,
 				points
+			}));
+		}
+
+		if (injure > DEFAULT_OPERATION_LIMIT) {
+			notification.alerts.push(new InjureOperationAlert({
+				name,
+				link,
+				injure
 			}));
 		}
 	});
@@ -70,7 +80,7 @@ const start = async() => {
 
 	try {
 		return Promise.all([
-			getPointsAlerts(),
+			getPointsAndInjureAlerts(),
 			getTalentAlerts(),
 			getDepositAlerts()
 		]);
