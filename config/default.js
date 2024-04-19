@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config();
+
 const path = require('path');
 
 module.exports = {
@@ -9,13 +11,13 @@ module.exports = {
 		},
 
 		auth: {
-			login: 'login',
-			password: 'password'
+			login: process.env.LOGIN,
+			password: process.env.PASSWORD
 		},
 
 		team: {
-			name: '',
-			id: ''
+			name: process.env.TEAM_NAME,
+			id: process.env.TEAM_ID
 		},
 
 		orderName: 'auto',
@@ -98,10 +100,10 @@ module.exports = {
 	},
 
 	mail: {
-		service: '',
+		service: process.env.MAIL_SERVICE,
 		auth: {
-			user: '',
-			pass: ''
+			user: process.env.MAIL_LOGIN,
+			pass: process.env.MAIL_PASSWORD
 		}
 	},
 
