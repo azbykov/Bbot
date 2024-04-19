@@ -1,5 +1,6 @@
-Butsa Bot  [![Build Status](https://travis-ci.org/azbykov/Bbot.svg?branch=master)](https://travis-ci.org/azbykov/Bbot)  [![dependencies](https://david-dm.org/azbykov/Bbot.svg)](https://david-dm.org/azbykov/Bbot)
+Butsa Bot
 ==
+Бот для сервиса [Золотая бутса](http://butsa.ru)
 
 ## Текущая версия 0.7.0
 * заявка на тов. матч
@@ -14,6 +15,7 @@ Butsa Bot  [![Build Status](https://travis-ci.org/azbykov/Bbot.svg?branch=master
 * комментарии после матча
 * расчет оптимальных тренировок
 * Расчет тренировок таланта
+* Расчет посещаимости и цены билетов
 
 
 ## Установка
@@ -24,26 +26,11 @@ npm install
 ```
 
 ## Настройка
-Указать в  файле `config/default.js`
-
-```js
-bot: {
-	auth: {
-		// логин и пароль к butsa.ru
-		login: LOGIN,
-		password: PASSWORD
-	},
-	mail: {
-		service: MAIL_SERVER	// например 'mail.ru',
-		auth: {
-		// логин и пароль к почтовому серверу, например 'mail.ru'
-			user: LOGIN,
-			pass: PASSWORD
-		}
-	},
-}
+скопировать `.evn.example` в `.env`
+```bash
+cp .env.example .env
 ```
-
+Указать в `.env` все необходимые параметры
 Настройка cron
 
 ```bash
@@ -76,6 +63,5 @@ crontab cron/cron.sh
 * продажа талантов
 * Расчет восстановления Ф/Г
 * Расчет вероятности получения травмы
-* Расчет посещаимости
 * Изменения в турнирной таблице
 * Транферный агент

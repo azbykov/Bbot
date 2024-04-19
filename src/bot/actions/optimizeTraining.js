@@ -40,8 +40,8 @@ const ABILITY_IDS = {
 	priem: 4,
 	vinoslevost: 5,
 	pas: 6,
-	silaYdara: 7,
-	tothnostYdara: 8
+	silaUdara: 7,
+	tothnostUdara: 8
 };
 
 const DEFAULT_ABILITY = 'vinoslevost';

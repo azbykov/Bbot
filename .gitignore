@@ -1,4 +1,5 @@
 .idea
+.env
 tools/stubs
 node_modules
 mocks

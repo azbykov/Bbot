@@ -3,16 +3,17 @@
   "version": "0.7.0",
   "description": "Butsa Bot",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.10",
-    "config": "^3.3.6",
-    "ejs": "^3.1.7",
+    "cheerio": "^1.0.0-rc.12",
+    "config": "^3.3.11",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
     "email-templates": "^11.1.1",
     "lodash": "4.17.21",
     "moment": "2.29.4",
-    "nodemailer": "^6.9.9",
+    "nodemailer": "^6.9.13",
     "request": "^2.88.2",
-    "snyk": "^1.1064.0",
-    "winston": "3.3.0"
+    "snyk": "^1.1290.0",
+    "winston": "^3.13.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
@@ -24,8 +25,8 @@
     "nock": "^13.1.0"
   },
   "scripts": {
-    "prod": "NODE_ENV=production npm run dayly",
-    "dayly": "node src/bot/daily-15.js",
+    "prod": "NODE_ENV=production npm run daily",
+    "daily": "node src/bot/daily-15.js",
     "test": "eslint src/",
     "snyk-protect": "snyk protect",
     "prepare": "npm run snyk-protect"

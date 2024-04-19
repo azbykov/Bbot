@@ -22,8 +22,8 @@ module.exports = ({body}) => {
 			priem: $(playerParams[9]).text().replace('\n', ''),
 			vinoslevost: $(playerParams[10]).text().replace('\n', ''),
 			pas: $(playerParams[11]).text().replace('\n', ''),
-			silaYdara: $(playerParams[12]).text().replace('\n', ''),
-			tothnostYdara: $(playerParams[13]).text().replace('\n', '')
+			silaUdara: $(playerParams[12]).text().replace('\n', ''),
+			tothnostUdara: $(playerParams[13]).text().replace('\n', '')
 		};
 
 		const lastTrainingVal = playerParams.find('.trained_ability').text().replace('\n', '');

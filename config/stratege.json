@@ -19,7 +19,7 @@
       "ability": ["dribl", "priem", "pas"]
     },
     "strike": {
-      "ability": ["silaYdara", "tothnostYdara"]
+      "ability": ["silaUdara", "tothnostUdara"]
     },
     "min-ability": {
       "min": true,
@@ -30,8 +30,8 @@
         "priem",
         "vinoslevost",
         "pas",
-        "silaYdara",
-        "tothnostYdara"
+        "silaUdara",
+        "tothnostUdara"
       ]
     }
   }
