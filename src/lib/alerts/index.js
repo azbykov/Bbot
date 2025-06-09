@@ -8,7 +8,7 @@ class Alert {
 	static TYPE = {
 		warn: 'WARN',
 		alert: 'ALERT',
-	}
+	};
 
 	warn() {}
 
