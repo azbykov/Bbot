@@ -29,20 +29,31 @@ module.exports = {
 				const gameLink = protocol + domain + match.find('td:nth-child(7)').find('a').attr('href');
 				const gameId = gameLink.split('id=')[1];
 
-				const [tournament, tour] = match.find('td:nth-child(4)').text().replace('\n', '').split(', ')
-				const [rivalTeamName, whereGame] = match.find('td:nth-child(5)').find('center').text().split(' (');
+				const [tournament, tour] = match
+					.find('td:nth-child(4)')
+					.text()
+					.replace('\n', '')
+					.split(', ');
+				const [rivalTeamName, whereGame] = match
+					.find('td:nth-child(5)')
+					.find('center')
+					.text()
+					.split(' (');
 
-				const emblemLink = $('a[href="/matches/' + gameId + '"]').find('img').attr('src')
-					? host + $('a[href="/matches/' + gameId + '"]').find('img').attr('src')
-					: null
-				;
+				const emblemLink = $('a[href="/matches/' + gameId + '"]')
+					.find('img')
+					.attr('src')
+					? host + $('a[href="/matches/' + gameId + '"]')
+						.find('img')
+						.attr('src')
+					: null;
 
 				return {
 					gid: match.find('td:nth-child(2)').find('center').text(),
 					gameDate: match.find('td:nth-child(3)').find('center').text(),
 					tournament: [tournament, tour].join(', '),
 					tournamentId: TOURNAMENT_ID_MAP[tournament] || tournament,
-					tourNumber: parseInt(tour),
+					tourNumber: parseInt(tour, 10),
 					rivalTeamName,
 					isHome: whereGame.slice(0, -1) === HOME_CHAR,
 					rivalTeamLink: rivalTeamLink,
