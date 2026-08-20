@@ -29,13 +29,24 @@ module.exports = {
 				const gameLink = protocol + domain + match.find('td:nth-child(7)').find('a').attr('href');
 				const gameId = gameLink.split('id=')[1];
 
-				const [tournament, tour] = match.find('td:nth-child(4)').text().replace('\n', '').split(', ');
-				const [rivalTeamName, whereGame] = match.find('td:nth-child(5)').find('center').text().split(' (');
+				const [tournament, tour] = match
+					.find('td:nth-child(4)')
+					.text()
+					.replace('\n', '')
+					.split(', ');
+				const [rivalTeamName, whereGame] = match
+					.find('td:nth-child(5)')
+					.find('center')
+					.text()
+					.split(' (');
 
-				const emblemLink = $('a[href="/matches/' + gameId + '"]').find('img').attr('src')
-					? host + $('a[href="/matches/' + gameId + '"]').find('img').attr('src')
-					: null
-				;
+				const emblemLink = $('a[href="/matches/' + gameId + '"]')
+					.find('img')
+					.attr('src')
+					? host + $('a[href="/matches/' + gameId + '"]')
+						.find('img')
+						.attr('src')
+					: null;
 
 				return {
 					gid: match.find('td:nth-child(2)').find('center').text(),
