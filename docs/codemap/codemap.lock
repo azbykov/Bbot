@@ -1,0 +1,148 @@
+{
+  "current_commit": "84d6050c59574d9e7b62c1649c0b6218310f25fa",
+  "working_tree_has_uncommitted_changes": true,
+  "generated_at": "2026-08-20T12:35:11.482Z",
+  "scanned_scope": [
+    "package.json",
+    "eslint.config.js",
+    "config/**",
+    "cron/**",
+    "src/**",
+    "test/**"
+  ],
+  "excluded_directories": [
+    ".git",
+    "node_modules",
+    "vendor",
+    "build",
+    "dist",
+    "coverage",
+    ".cache",
+    "cache",
+    "log",
+    "docs/codemap"
+  ],
+  "fingerprint_algorithm": "sha256(sorted tracked_path + NUL + sha256(current_file_contents or deleted marker) + LF)",
+  "modules": {
+    "config": {
+      "fingerprint": "sha256:e74a9c049544937b7dbef2bf7c7c9e9394f3f080b76d535d46179c0754bfc05f",
+      "files": [
+        "config/default.js",
+        "config/stratege.json"
+      ],
+      "deleted_files": []
+    },
+    "cron": {
+      "fingerprint": "sha256:d4b3fac7076bc8af778c9a1d4d21244d1893a8aed5095b0faabc923056070596",
+      "files": [
+        "cron/cron.sh"
+      ],
+      "deleted_files": []
+    },
+    "root": {
+      "fingerprint": "sha256:524b7dee5805f8fad3595872688123ed5caa85e591d740c71b715773600ff58b",
+      "files": [
+        ".babelrc",
+        ".editorconfig",
+        ".env.example",
+        ".eslintrc",
+        ".gitignore",
+        ".snyk",
+        ".travis.yml",
+        "AGENTS.md",
+        "ARCHITECTURE.md",
+        "README.md",
+        "package-lock.json",
+        "package.json"
+      ],
+      "deleted_files": [
+        ".babelrc",
+        ".eslintrc"
+      ]
+    },
+    "src/bot": {
+      "fingerprint": "sha256:369c1ae4436cc9e2945e91ad782efe56844ec5cdf9266632dd7c9eb38df6cdfc",
+      "files": [
+        "src/bot/actions/addComments.js",
+        "src/bot/actions/getAuthCookies.js",
+        "src/bot/actions/getClubInfo.js",
+        "src/bot/actions/getImage.js",
+        "src/bot/actions/optimizeTraining.js",
+        "src/bot/daily-15.js",
+        "src/bot/models/order.js",
+        "src/bot/notifications/index.js",
+        "src/bot/tasks/buildings.js",
+        "src/bot/tasks/checkMail.js",
+        "src/bot/tasks/financialReport.js",
+        "src/bot/tasks/friendly.js",
+        "src/bot/tasks/getLastResult.js",
+        "src/bot/tasks/getTrainingReport.js",
+        "src/bot/tasks/getTrainingReportJunior.js",
+        "src/bot/tasks/goods.js",
+        "src/bot/tasks/nearMatch.js",
+        "src/bot/tasks/setNotifications.js",
+        "src/bot/tasks/setOptimalTicketPrice.js",
+        "src/bot/tasks/setOptimalTraining.js"
+      ],
+      "deleted_files": []
+    },
+    "src/constants": {
+      "fingerprint": "sha256:e29c10e81e89b2eafb1fd29dc7dbce7913735295a52ec5f2966d21c1d3d2ce29",
+      "files": [
+        "src/constants/comments.js",
+        "src/constants/common.js",
+        "src/constants/path.js",
+        "src/constants/uri.js"
+      ],
+      "deleted_files": []
+    },
+    "src/lib": {
+      "fingerprint": "sha256:8f50e167689e224dcfc30f05bdc4786d408aa65b7bf15c7c7959a33af86498d4",
+      "files": [
+        "src/lib/alerts/bonus-points.js",
+        "src/lib/alerts/deposit.js",
+        "src/lib/alerts/index.js",
+        "src/lib/alerts/injure-operation.js",
+        "src/lib/alerts/talent.js",
+        "src/lib/buffer.js",
+        "src/lib/log/index.js",
+        "src/lib/mailer/daily.js",
+        "src/lib/mailer/error.js",
+        "src/lib/mailer/index.js",
+        "src/lib/mailer/mailer.js",
+        "src/lib/mailer/templates/daily_old/html.ejs",
+        "src/lib/mailer/templates/daily_old/style.css",
+        "src/lib/mailer/templates/daily_old/text.ejs",
+        "src/lib/mailer/templates/error/html.ejs",
+        "src/lib/mailer/templates/error/style.css",
+        "src/lib/mailer/templates/error/text.ejs",
+        "src/lib/mailer/templates/mailTemplate.js",
+        "src/lib/mailer/templates/modules/alerts.ejs",
+        "src/lib/mailer/templates/modules/financial-report.ejs",
+        "src/lib/mailer/templates/modules/mails.ejs",
+        "src/lib/mailer/templates/modules/match-result.ejs",
+        "src/lib/mailer/templates/modules/matches.ejs",
+        "src/lib/mailer/templates/modules/messages.ejs",
+        "src/lib/mailer/templates/modules/title.ejs",
+        "src/lib/mailer/templates/modules/training-regress.ejs",
+        "src/lib/mailer/templates/modules/training.ejs",
+        "src/lib/mailer/templates/modules/young-training.ejs",
+        "src/lib/notification.js",
+        "src/lib/profiler.js",
+        "src/lib/reqreq.js",
+        "src/lib/team/club/abilities.js",
+        "src/lib/team/club/index.js",
+        "src/lib/team/club/player-params.js",
+        "src/lib/team/club/roster.js",
+        "src/lib/team/index.js",
+        "src/lib/team/match/index.js",
+        "src/lib/team/office/deposit.js",
+        "src/lib/team/office/index.js",
+        "src/lib/team/training/index.js",
+        "src/lib/team/training/main-team.js",
+        "src/lib/team/training/youngs.js"
+      ],
+      "deleted_files": []
+    }
+  }
+}

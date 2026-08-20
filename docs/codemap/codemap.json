@@ -1,0 +1,917 @@
+{
+  "generated_at": "2026-08-20T12:35:11.482Z",
+  "generated_from_commit": "84d6050c59574d9e7b62c1649c0b6218310f25fa",
+  "scope": [
+    "package.json",
+    "eslint.config.js",
+    "config/**",
+    "cron/**",
+    "src/**",
+    "test/**"
+  ],
+  "nodes": [
+    {
+      "id": "daily",
+      "path": "src/bot/daily-15.js",
+      "role": "Daily workflow orchestrator",
+      "type": "entrypoint",
+      "layer": 0,
+      "entrypoints": [
+        "module body"
+      ],
+      "tests": [],
+      "constraints": [
+        "Mutating tasks run concurrently",
+        "Shared error path"
+      ],
+      "evidence": [
+        {
+          "path": "src/bot/daily-15.js",
+          "symbol": "authentication()",
+          "status": "source"
+        },
+        {
+          "path": "src/bot/daily-15.js",
+          "symbol": "Promise.all([",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "auth",
+      "path": "src/bot/actions/getAuthCookies.js",
+      "role": "Butsa login through the shared fetch cookie session",
+      "type": "service",
+      "layer": 1,
+      "entrypoints": [
+        "get"
+      ],
+      "tests": [
+        "test/reqreq.test.js"
+      ],
+      "constraints": [
+        "Requires LOGIN and PASSWORD",
+        "Authentication errors must not log credentials"
+      ],
+      "evidence": [
+        {
+          "path": "src/bot/actions/getAuthCookies.js",
+          "symbol": "const get = async() =>",
+          "status": "source"
+        },
+        {
+          "path": "src/bot/actions/getAuthCookies.js",
+          "symbol": "client.request('authentication'",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "operations",
+      "path": "src/bot/tasks",
+      "role": "Friendly, goods and buildings mutations",
+      "type": "service",
+      "layer": 2,
+      "entrypoints": [
+        "friendly.start",
+        "goods.start",
+        "buildings.start"
+      ],
+      "tests": [],
+      "constraints": [
+        "Real POST requests",
+        "No cross-task rollback"
+      ],
+      "evidence": [
+        {
+          "path": "src/bot/tasks/friendly.js",
+          "symbol": "const start = () =>",
+          "status": "source"
+        },
+        {
+          "path": "src/bot/tasks/goods.js",
+          "symbol": "const start = () =>",
+          "status": "source"
+        },
+        {
+          "path": "src/bot/tasks/buildings.js",
+          "symbol": "var start = () =>",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "reporting",
+      "path": "src/bot/tasks",
+      "role": "Reports, match result and game mail collection",
+      "type": "service",
+      "layer": 2,
+      "entrypoints": [
+        "nearMatch.start",
+        "getLastResult.start",
+        "getTrainingReport.start",
+        "getTrainingReportJunior.start",
+        "financialReport.start",
+        "checkMail.start"
+      ],
+      "tests": [],
+      "constraints": [
+        "HTML is the implicit schema",
+        "Match flow also posts a comment"
+      ],
+      "evidence": [
+        {
+          "path": "src/bot/tasks/getLastResult.js",
+          "symbol": "const start = () =>",
+          "status": "source"
+        },
+        {
+          "path": "src/bot/tasks/nearMatch.js",
+          "symbol": "const start = () =>",
+          "status": "source"
+        },
+        {
+          "path": "src/bot/tasks/checkMail.js",
+          "symbol": "const start = () =>",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "training-opt",
+      "path": "src/bot/tasks/setOptimalTraining.js",
+      "role": "Training strategy orchestration",
+      "type": "service",
+      "layer": 2,
+      "entrypoints": [
+        "start"
+      ],
+      "tests": [],
+      "constraints": [
+        "Goalkeepers skipped",
+        "PercentTrain is 100"
+      ],
+      "evidence": [
+        {
+          "path": "src/bot/tasks/setOptimalTraining.js",
+          "symbol": "const start = () =>",
+          "status": "source"
+        },
+        {
+          "path": "src/bot/actions/optimizeTraining.js",
+          "symbol": "const DEFAULT_PERCENT_TRAINING = 100",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "notifications",
+      "path": "src/bot/tasks/setNotifications.js",
+      "role": "Bonus, injury, talent and deposit alerts",
+      "type": "service",
+      "layer": 2,
+      "entrypoints": [
+        "start"
+      ],
+      "tests": [],
+      "constraints": [
+        "Runs after task group"
+      ],
+      "evidence": [
+        {
+          "path": "src/bot/tasks/setNotifications.js",
+          "symbol": "const start = async() =>",
+          "status": "source"
+        },
+        {
+          "path": "src/lib/notification.js",
+          "symbol": "const notification = new Notification()",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "team",
+      "path": "src/lib/team/index.js",
+      "role": "Lazy cached Team data facade",
+      "type": "domain",
+      "layer": 3,
+      "entrypoints": [
+        "club.value",
+        "nearMatch.value",
+        "trainingMainTeam.value",
+        "youngs.value",
+        "finance.value"
+      ],
+      "tests": [],
+      "constraints": [
+        "Singleton cache",
+        "Rejected pending promise persists"
+      ],
+      "evidence": [
+        {
+          "path": "src/lib/team/index.js",
+          "symbol": "class CreateManager",
+          "status": "source"
+        },
+        {
+          "path": "src/lib/team/index.js",
+          "symbol": "const team = new Team()",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "club-provider",
+      "path": "src/lib/team/club",
+      "role": "Club, roster and skills HTML providers",
+      "type": "provider",
+      "layer": 4,
+      "entrypoints": [
+        "roster",
+        "playerParams",
+        "playersAbilities"
+      ],
+      "tests": [],
+      "constraints": [
+        "Three pages merge by player id",
+        "Positional selectors"
+      ],
+      "evidence": [
+        {
+          "path": "src/lib/team/club/index.js",
+          "symbol": "roster()",
+          "status": "source"
+        },
+        {
+          "path": "src/lib/team/club/roster.js",
+          "symbol": "const getPlayers = ($) =>",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "match-provider",
+      "path": "src/lib/team/match",
+      "role": "Upcoming matches HTML provider",
+      "type": "provider",
+      "layer": 4,
+      "entrypoints": [
+        "nearMatch"
+      ],
+      "tests": [],
+      "constraints": [
+        "Result key is mathes",
+        "Localized tournament text"
+      ],
+      "evidence": [
+        {
+          "path": "src/lib/team/match/index.js",
+          "symbol": "nearMatch()",
+          "status": "source"
+        },
+        {
+          "path": "src/lib/team/match/index.js",
+          "symbol": "const mathes = _.map",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "training-provider",
+      "path": "src/lib/team/training",
+      "role": "First-team and academy training providers",
+      "type": "provider",
+      "layer": 4,
+      "entrypoints": [
+        "players",
+        "youngs"
+      ],
+      "tests": [],
+      "constraints": [
+        "Positional selectors",
+        "Embedded talent formula"
+      ],
+      "evidence": [
+        {
+          "path": "src/lib/team/training/index.js",
+          "symbol": "players()",
+          "status": "source"
+        },
+        {
+          "path": "src/lib/team/training/index.js",
+          "symbol": "youngs()",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "finance-provider",
+      "path": "src/lib/team/office",
+      "role": "Finance and deposits HTML providers",
+      "type": "provider",
+      "layer": 4,
+      "entrypoints": [
+        "finance",
+        "deposit"
+      ],
+      "tests": [],
+      "constraints": [
+        "Locale-specific numbers and dates"
+      ],
+      "evidence": [
+        {
+          "path": "src/lib/team/office/index.js",
+          "symbol": "finance()",
+          "status": "source"
+        },
+        {
+          "path": "src/lib/team/office/index.js",
+          "symbol": "deposit()",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "http",
+      "path": "src/lib/reqreq.js",
+      "role": "Node fetch adapter with cookie session, form encoding and GET fixtures",
+      "type": "infrastructure",
+      "layer": 5,
+      "entrypoints": [
+        "request",
+        "makeRequest",
+        "getMock"
+      ],
+      "tests": [
+        "test/reqreq.test.js"
+      ],
+      "constraints": [
+        "Process singleton",
+        "POST requests bypass fixture mode",
+        "Redirects are exposed to callers"
+      ],
+      "evidence": [
+        {
+          "path": "src/lib/reqreq.js",
+          "symbol": "class Req",
+          "status": "source"
+        },
+        {
+          "path": "src/lib/reqreq.js",
+          "symbol": "const response = await this.fetch(url, options)",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "buffer-log",
+      "path": "src/lib/buffer.js",
+      "role": "In-memory report buffer, date formatting and logging pipeline",
+      "type": "infrastructure",
+      "layer": 5,
+      "entrypoints": [
+        "buffer object",
+        "getLogger"
+      ],
+      "tests": [
+        "test/date.test.js"
+      ],
+      "constraints": [
+        "Mutable process-global state"
+      ],
+      "evidence": [
+        {
+          "path": "src/lib/buffer.js",
+          "symbol": "var _buffer =",
+          "status": "source"
+        },
+        {
+          "path": "src/lib/log/index.js",
+          "symbol": "function getLogger(label)",
+          "status": "source"
+        },
+        {
+          "path": "src/lib/date.js",
+          "symbol": "const formatLogTimestamp =",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "mailer",
+      "path": "src/lib/mailer",
+      "role": "email-templates orchestration for EJS reports and Nodemailer SMTP delivery",
+      "type": "infrastructure",
+      "layer": 6,
+      "entrypoints": [
+        "daily",
+        "error",
+        "send",
+        "renderTemplate"
+      ],
+      "tests": [
+        "test/mailer.test.js"
+      ],
+      "constraints": [
+        "Daily recipient is hard-coded",
+        "SMTP delivery is not exercised by tests",
+        "Template preview is disabled because preview-email is omitted"
+      ],
+      "evidence": [
+        {
+          "path": "src/lib/mailer/mailer.js",
+          "symbol": "const email = new Email({",
+          "status": "source"
+        },
+        {
+          "path": "src/lib/mailer/mailer.js",
+          "symbol": "preview: false",
+          "status": "source"
+        },
+        {
+          "path": "src/lib/mailer/mailer.js",
+          "symbol": "nodemailer.createTransport(",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "config",
+      "path": "config",
+      "role": "Node 24 runtime, environment settings, URI constants and training strategy",
+      "type": "configuration",
+      "layer": 6,
+      "entrypoints": [
+        "package.json",
+        "eslint.config.js",
+        "config/default.js",
+        "config/stratege.json",
+        "src/constants/uri.js"
+      ],
+      "tests": [
+        "test/config.test.js"
+      ],
+      "constraints": [
+        "Requires Node.js 24.9.0 or newer",
+        "Butsa credentials use BUTSA_LOGIN and BUTSA_PASSWORD"
+      ],
+      "evidence": [
+        {
+          "path": "package.json",
+          "symbol": "\"node\": \">=24.9.0\"",
+          "status": "source"
+        },
+        {
+          "path": "config/default.js",
+          "symbol": "process.loadEnvFile()",
+          "status": "source"
+        },
+        {
+          "path": "config/default.js",
+          "symbol": "login: process.env.BUTSA_LOGIN",
+          "status": "source"
+        },
+        {
+          "path": "src/constants/uri.js",
+          "symbol": "domain: 'www.butsa.ru'",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "butsa",
+      "path": "src/constants/uri.js",
+      "role": "External butsa.ru HTML application",
+      "type": "external",
+      "layer": 7,
+      "entrypoints": [
+        "HTTPS endpoints"
+      ],
+      "tests": [],
+      "constraints": [
+        "Unversioned external HTML schema"
+      ],
+      "evidence": [
+        {
+          "path": "src/constants/uri.js",
+          "symbol": "host: 'https://www.butsa.ru'",
+          "status": "source"
+        }
+      ]
+    },
+    {
+      "id": "smtp",
+      "path": "src/lib/mailer/mailer.js",
+      "role": "External configured mail service",
+      "type": "external",
+      "layer": 7,
+      "entrypoints": [
+        "Nodemailer transport"
+      ],
+      "tests": [],
+      "constraints": [
+        "Requires mail credentials"
+      ],
+      "evidence": [
+        {
+          "path": "src/lib/mailer/mailer.js",
+          "symbol": "nodemailer.createTransport(",
+          "status": "source"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "daily",
+      "to": "auth",
+      "type": "calls",
+      "evidence": {
+        "path": "src/bot/daily-15.js",
+        "symbol": "authentication()",
+        "status": "source"
+      }
+    },
+    {
+      "from": "daily",
+      "to": "operations",
+      "type": "calls",
+      "evidence": {
+        "path": "src/bot/daily-15.js",
+        "symbol": "friendly()",
+        "status": "source"
+      }
+    },
+    {
+      "from": "daily",
+      "to": "reporting",
+      "type": "calls",
+      "evidence": {
+        "path": "src/bot/daily-15.js",
+        "symbol": "matchResult()",
+        "status": "source"
+      }
+    },
+    {
+      "from": "daily",
+      "to": "training-opt",
+      "type": "calls",
+      "evidence": {
+        "path": "src/bot/daily-15.js",
+        "symbol": "setOptimalTraining()",
+        "status": "source"
+      }
+    },
+    {
+      "from": "daily",
+      "to": "notifications",
+      "type": "calls",
+      "evidence": {
+        "path": "src/bot/daily-15.js",
+        "symbol": ".then(setNotifications)",
+        "status": "source"
+      }
+    },
+    {
+      "from": "daily",
+      "to": "mailer",
+      "type": "calls",
+      "evidence": {
+        "path": "src/bot/daily-15.js",
+        "symbol": "dailyMail()",
+        "status": "source"
+      }
+    },
+    {
+      "from": "auth",
+      "to": "config",
+      "type": "reads",
+      "evidence": {
+        "path": "src/bot/actions/getAuthCookies.js",
+        "symbol": "require('config').bot",
+        "status": "source"
+      }
+    },
+    {
+      "from": "operations",
+      "to": "team",
+      "type": "reads",
+      "evidence": {
+        "path": "src/bot/tasks/goods.js",
+        "symbol": "team.club.value",
+        "status": "source"
+      }
+    },
+    {
+      "from": "operations",
+      "to": "http",
+      "type": "calls",
+      "evidence": {
+        "path": "src/bot/tasks/friendly.js",
+        "symbol": "reqreq().request('request_friendly'",
+        "status": "source"
+      }
+    },
+    {
+      "from": "reporting",
+      "to": "team",
+      "type": "reads",
+      "evidence": {
+        "path": "src/bot/tasks/nearMatch.js",
+        "symbol": "team.nearMatch.value",
+        "status": "source"
+      }
+    },
+    {
+      "from": "reporting",
+      "to": "http",
+      "type": "calls",
+      "evidence": {
+        "path": "src/bot/tasks/getLastResult.js",
+        "symbol": "reqreq().request('task_get_last_result'",
+        "status": "source"
+      }
+    },
+    {
+      "from": "reporting",
+      "to": "buffer-log",
+      "type": "writes",
+      "evidence": {
+        "path": "src/bot/tasks/getTrainingReport.js",
+        "symbol": "buffer.training =",
+        "status": "source"
+      }
+    },
+    {
+      "from": "training-opt",
+      "to": "team",
+      "type": "reads",
+      "evidence": {
+        "path": "src/bot/tasks/setOptimalTraining.js",
+        "symbol": "team.club.value",
+        "status": "source"
+      }
+    },
+    {
+      "from": "training-opt",
+      "to": "config",
+      "type": "reads",
+      "evidence": {
+        "path": "src/bot/actions/optimizeTraining.js",
+        "symbol": "require('../../../config/stratege.json')",
+        "status": "source"
+      }
+    },
+    {
+      "from": "training-opt",
+      "to": "http",
+      "type": "calls",
+      "evidence": {
+        "path": "src/bot/actions/optimizeTraining.js",
+        "symbol": "reqreq().request('optimizeTraining'",
+        "status": "source"
+      }
+    },
+    {
+      "from": "notifications",
+      "to": "team",
+      "type": "reads",
+      "evidence": {
+        "path": "src/bot/tasks/setNotifications.js",
+        "symbol": "team.club.value",
+        "status": "source"
+      }
+    },
+    {
+      "from": "notifications",
+      "to": "buffer-log",
+      "type": "writes",
+      "evidence": {
+        "path": "src/bot/tasks/setNotifications.js",
+        "symbol": "notification.alerts.push(",
+        "status": "source"
+      }
+    },
+    {
+      "from": "team",
+      "to": "club-provider",
+      "type": "calls",
+      "evidence": {
+        "path": "src/lib/team/index.js",
+        "symbol": "const {roster, playerParams, playersAbilities}",
+        "status": "source"
+      }
+    },
+    {
+      "from": "team",
+      "to": "match-provider",
+      "type": "calls",
+      "evidence": {
+        "path": "src/lib/team/index.js",
+        "symbol": "new CreateManager(nearMatch)",
+        "status": "source"
+      }
+    },
+    {
+      "from": "team",
+      "to": "training-provider",
+      "type": "calls",
+      "evidence": {
+        "path": "src/lib/team/index.js",
+        "symbol": "new CreateManager(players)",
+        "status": "source"
+      }
+    },
+    {
+      "from": "team",
+      "to": "finance-provider",
+      "type": "calls",
+      "evidence": {
+        "path": "src/lib/team/index.js",
+        "symbol": "const financeReport = await finance()",
+        "status": "source"
+      }
+    },
+    {
+      "from": "club-provider",
+      "to": "http",
+      "type": "calls",
+      "evidence": {
+        "path": "src/lib/team/club/index.js",
+        "symbol": "reqreq().request('request_roster'",
+        "status": "source"
+      }
+    },
+    {
+      "from": "match-provider",
+      "to": "http",
+      "type": "calls",
+      "evidence": {
+        "path": "src/lib/team/match/index.js",
+        "symbol": "reqreq().request('request near match'",
+        "status": "source"
+      }
+    },
+    {
+      "from": "training-provider",
+      "to": "http",
+      "type": "calls",
+      "evidence": {
+        "path": "src/lib/team/training/index.js",
+        "symbol": "reqreq().request('request players'",
+        "status": "source"
+      }
+    },
+    {
+      "from": "finance-provider",
+      "to": "http",
+      "type": "calls",
+      "evidence": {
+        "path": "src/lib/team/office/index.js",
+        "symbol": "reqreq().request('request finance'",
+        "status": "source"
+      }
+    },
+    {
+      "from": "http",
+      "to": "butsa",
+      "type": "calls",
+      "evidence": {
+        "path": "src/lib/reqreq.js",
+        "symbol": "const response = await this.fetch(url, options)",
+        "status": "source"
+      }
+    },
+    {
+      "from": "buffer-log",
+      "to": "mailer",
+      "type": "reads",
+      "evidence": {
+        "path": "src/lib/mailer/daily.js",
+        "symbol": "content: buffer",
+        "status": "source"
+      }
+    },
+    {
+      "from": "notifications",
+      "to": "mailer",
+      "type": "reads",
+      "evidence": {
+        "path": "src/lib/mailer/daily.js",
+        "symbol": "alerts: notification.alerts",
+        "status": "source"
+      }
+    },
+    {
+      "from": "mailer",
+      "to": "config",
+      "type": "reads",
+      "evidence": {
+        "path": "src/lib/mailer/mailer.js",
+        "symbol": "require('config')",
+        "status": "source"
+      }
+    },
+    {
+      "from": "mailer",
+      "to": "smtp",
+      "type": "publishes",
+      "evidence": {
+        "path": "src/lib/mailer/mailer.js",
+        "symbol": "const result = await email.send({",
+        "status": "source"
+      }
+    },
+    {
+      "from": "auth",
+      "to": "http",
+      "type": "calls",
+      "evidence": {
+        "path": "src/bot/actions/getAuthCookies.js",
+        "symbol": "client.request('authentication'",
+        "status": "source"
+      }
+    }
+  ],
+  "flows": [
+    {
+      "id": "daily-operations",
+      "name": "Daily mutating operations",
+      "trigger": "npm run daily or cron",
+      "steps": [
+        "daily",
+        "auth",
+        "http",
+        "butsa",
+        "operations",
+        "team"
+      ],
+      "outcome": "Friendly, stock and repair operations are attempted."
+    },
+    {
+      "id": "daily-report",
+      "name": "Daily report email",
+      "trigger": "Authenticated task group",
+      "steps": [
+        "daily",
+        "reporting",
+        "team",
+        "club-provider",
+        "match-provider",
+        "training-provider",
+        "finance-provider",
+        "http",
+        "butsa",
+        "buffer-log",
+        "mailer",
+        "smtp"
+      ],
+      "outcome": "Club data is rendered and sent by email."
+    },
+    {
+      "id": "training-update",
+      "name": "Automatic training update",
+      "trigger": "setOptimalTraining task",
+      "steps": [
+        "daily",
+        "training-opt",
+        "team",
+        "club-provider",
+        "http",
+        "butsa"
+      ],
+      "outcome": "Training choices are posted for field players."
+    },
+    {
+      "id": "match-comment",
+      "name": "Match report and press comment",
+      "trigger": "getLastResult task",
+      "steps": [
+        "daily",
+        "reporting",
+        "http",
+        "butsa",
+        "buffer-log"
+      ],
+      "outcome": "Last match is reported and a comment is posted."
+    },
+    {
+      "id": "alerts-email",
+      "name": "Alert generation and delivery",
+      "trigger": "Parallel tasks resolve",
+      "steps": [
+        "daily",
+        "notifications",
+        "team",
+        "club-provider",
+        "training-provider",
+        "finance-provider",
+        "buffer-log",
+        "mailer",
+        "smtp"
+      ],
+      "outcome": "Club alerts are included in daily email."
+    }
+  ]
+}

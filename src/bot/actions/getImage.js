@@ -1,30 +1,25 @@
 'use strict';
 
-const request = require('request');
 const log = require('../../lib/log')('action_getImage');
 
-const getImage = (url) => {
-	const options = {
-		url,
-		headers: {
-			'Content-Type': 'charset=utf-8',
-			'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-			'Accept-Encoding': 'gzip, deflate',
-			'Accept-Language': 'en-US,en;q=0.5'
-		},
-		encoding: 'binary',
-		gzip: true
-	};
-
-	return new Promise((resolve, reject) => {
-		request(options, (err, res, body) => {
-			if (err) {
-				log.error('Error!!', err);
-				return reject(err);
+const getImage = async(url) => {
+	try {
+		const response = await fetch(url, {
+			headers: {
+				Accept: 'image/*,*/*;q=0.8',
+				'Accept-Language': 'en-US,en;q=0.5'
 			}
-			return resolve(new Buffer(body.toString(), 'binary').toString('base64'));
 		});
-	});
+
+		if (!response.ok) {
+			throw new Error(`Image request failed with status ${response.status}`);
+		}
+
+		return Buffer.from(await response.arrayBuffer()).toString('base64');
+	} catch (error) {
+		log.error('Error!!', error);
+		throw error;
+	}
 };
 
 module.exports = getImage;

@@ -79,13 +79,11 @@ const start = async() => {
 	log.debug('[START] Set notifications');
 
 	try {
-		return Promise.all([
+		return await Promise.all([
 			getPointsAndInjureAlerts(),
 			getTalentAlerts(),
 			getDepositAlerts()
 		]);
-	} catch (e) {
-		throw new Error(e);
 	} finally {
 		log.debug('[COMPLETE] Set notifications', log.profiler.end('task_set_notifications'));
 	}

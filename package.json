@@ -2,34 +2,36 @@
   "name": "bbot",
   "version": "0.7.0",
   "description": "Butsa Bot",
+  "engines": {
+    "node": ">=24.9.0",
+    "npm": ">=11"
+  },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.12",
-    "config": "^3.3.11",
-    "dotenv": "^16.4.5",
-    "ejs": "^3.1.10",
-    "email-templates": "^11.1.1",
-    "lodash": "4.17.21",
-    "moment": "2.29.4",
-    "nodemailer": "^6.9.13",
-    "request": "^2.88.2",
-    "snyk": "^1.1290.0",
-    "winston": "^3.13.0"
+    "cheerio": "^1.2.0",
+    "config": "^5.0.1",
+    "email-templates": "^13.0.1",
+    "ejs": "^6.0.1",
+    "lodash": "^4.18.1",
+    "nodemailer": "^9.0.5",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.6",
-    "@babel/eslint-parser": "^7.14.7",
-    "@babel/eslint-plugin": "^7.14.5",
-    "@babel/plugin-syntax-class-properties": "^7.12.13",
-    "@babel/preset-env": "^7.14.7",
-    "eslint": "^7.30.0",
-    "nock": "^13.1.0"
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.1",
+    "globals": "^17.11.0"
   },
   "scripts": {
     "prod": "NODE_ENV=production npm run daily",
     "daily": "node src/bot/daily-15.js",
-    "test": "eslint src/",
-    "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "lint": "eslint src/ test/",
+    "test": "npm run lint && node --test",
+    "audit": "npm audit --omit=dev --omit=optional"
+  },
+  "overrides": {
+    "email-templates": {
+      "nodemailer": "$nodemailer"
+    },
+    "pug": "^3.0.4"
   },
   "repository": {
     "type": "git",
@@ -46,6 +48,5 @@
   "bugs": {
     "url": "https://github.com/azbykov/Bbot/issues"
   },
-  "homepage": "https://github.com/azbykov/Bbot#readme",
-  "snyk": true
+  "homepage": "https://github.com/azbykov/Bbot#readme"
 }

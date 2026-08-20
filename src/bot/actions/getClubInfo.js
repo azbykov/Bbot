@@ -20,7 +20,7 @@ const getClubInfo = (body) => {
 		managerLink: getLink($(clubInfoTr[2]).find('a').attr('href')),
 		rang: $(clubInfoTr[3]).find('a').text(),
 		city: $(clubInfoTr[4]).find('input').attr('value'),
-		stadium: [stadiumName, parseInt(seats)],
+		stadium: [stadiumName, parseInt(seats, 10)],
 		division: $(teamInfoTableTr[0]).find('a').text().split('-'),
 		fund: $(teamInfoTableTr[1]).find('input').attr('value'),
 		players: $(teamInfoTableTr[2]).find('a').text() || $(teamInfoTableTr[2]).find('span').text(),

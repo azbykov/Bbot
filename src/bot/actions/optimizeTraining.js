@@ -71,13 +71,9 @@ module.exports = async(playersData) => {
 
 	requestParams.form = prepareFormData(playersData);
 
-	try {
-		await reqreq().request('optimizeTraining', requestParams);
+	await reqreq().request('optimizeTraining', requestParams);
 
-		return 'done';
-	} catch (error) {
-		throw new Error(error);
-	}
+	return 'done';
 };
 
 const prepareFormData = (playersData) => {

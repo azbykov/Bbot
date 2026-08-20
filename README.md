@@ -19,6 +19,8 @@ Butsa Bot
 
 
 ## Установка
+Требуется Node.js 24.9.0 или новее и npm 11 или новее.
+
 ```bash
 git clone git@github.com:azbykov/Bbot.git bbot
 cd bbot
@@ -48,6 +50,12 @@ PATH= PATH_TO_BBOT_DIRECTORY
 ``
 npm run daily
 ``
+
+Команда выполняет реальные операции на `butsa.ru`. Для локальной проверки используйте:
+
+```bash
+npm test
+```
 
 ## CRON
 ``
