@@ -1,12 +1,11 @@
 'use strict';
 
-var moment = require('moment');
-moment.locale('ru');
+const {formatReportTimestamp} = require('../../date');
 
 var template = {
 	header: {
 		title: '',
-		date: moment().format('dddd DD MMMM YYYY, HH:mm')
+		date: formatReportTimestamp()
 	},
 	content: {},
 	footer: {

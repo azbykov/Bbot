@@ -1,7 +1,6 @@
 'use strict';
 
 const log = require('../../lib/log')('authentication');
-let request = require('request');
 const {auth} = require('config').bot;
 const cheerio = require('cheerio');
 const reqq = require('../../lib/reqreq');
@@ -18,34 +17,26 @@ const requestParams = {
 	}
 };
 
-request = request.defaults({jar: true});
+const get = async() => {
+	const client = reqq();
 
-const get = () => {
-	return new Promise((resolve, reject) => {
+	try {
+		const {body} = await client.request('authentication', requestParams, (response) => response);
+		const $ = cheerio.load(body);
+		const iconError = $('img[src="/images/icons/error.gif"]');
 
-		// return resolve();
-		request(requestParams, (error, {body}) => {
-			if (error) {
-				log.error('request', error.message);
-				reject(error);
-			}
+		if (iconError.length > 0) {
+			const errorText = `${iconError.parent().next().text()} Пользователь: ${auth.login}!`;
+			throw new Error(errorText);
+		}
 
-			const $ = cheerio.load(body);
-			const iconError = $('img[src="/images/icons/error.gif"]');
-
-			if (iconError.length > 0) {
-				const errorText = `${iconError.parent().next().text()} Пользователь: ${auth.login}!`;
-				log.error(`Auth error! ${errorText}`);
-				reject(errorText);
-			}
-
-			reqq({request});
-			resolve(request);
-		});
-	});
+		return client;
+	} catch (error) {
+		log.error('Auth error!', error.message);
+		throw error;
+	}
 };
 
 module.exports = {
 	get
 };
-

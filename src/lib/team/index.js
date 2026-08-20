@@ -60,41 +60,33 @@ Team.prototype.youngs = new CreateManager(youngs);
 
 // Finance
 Team.prototype.finance = new CreateManager(async() => {
-	try {
-		const financeReport = await finance();
-		const depositReport = await deposit();
+	const financeReport = await finance();
+	const depositReport = await deposit();
 
-		return {
-			financeReport,
-			deposit: depositReport
-		};
-	} catch (e) {
-		throw new Error(e);
-	}
+	return {
+		financeReport,
+		deposit: depositReport
+	};
 });
 
 Team.prototype.nearMatch = new CreateManager(nearMatch);
 
 Team.prototype.club = new CreateManager(async() => {
-	try {
-		const {players: playerRoster, goods, clubInfo} = await roster();
+	const {players: playerRoster, goods, clubInfo} = await roster();
 
-		const playerAdditionalParams = await playerParams();
-		const abilities = await playersAbilities();
-		const rosterValue = [
-			...playerRoster.concat(playerAdditionalParams).concat(abilities).reduce((map, result) =>
-				map.set(result.id, Object.assign(map.get(result.id) || {}, result)),
-			new Map()).values()
-		];
+	const playerAdditionalParams = await playerParams();
+	const abilities = await playersAbilities();
+	const rosterValue = [
+		...playerRoster.concat(playerAdditionalParams).concat(abilities).reduce((map, result) =>
+			map.set(result.id, Object.assign(map.get(result.id) || {}, result)),
+		new Map()).values()
+	];
 
-		return {
-			goods,
-			clubInfo,
-			roster: rosterValue
-		};
-	} catch (e) {
-		throw new Error(e);
-	}
+	return {
+		goods,
+		clubInfo,
+		roster: rosterValue
+	};
 });
 
 const team = new Team();

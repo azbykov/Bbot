@@ -5,8 +5,8 @@ const {combine, timestamp, printf, label: labelFormat} = winston.format;
 
 const {log: logConfig, bot: botConfig} = require('config');
 const buffer = require('../buffer');
+const {formatLogTimestamp} = require('../date');
 const Profiler = require('../profiler');
-const moment = require('moment');
 
 const labelLang = {
 	task_building: botConfig.buildings.label,
@@ -21,7 +21,7 @@ const loggerFormat = (label) => combine(
 	timestamp(),
 	labelFormat({label}),
 	printf((info) =>
-		`${moment(info.timestamp).format('DD-MM-YYYY HH:mm:ss:ms')} [${info.label}] ${info.level}: ${info.message}`
+		`${formatLogTimestamp(info.timestamp)} [${info.label}] ${info.level}: ${info.message}`
 	)
 );
 

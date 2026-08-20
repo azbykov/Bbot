@@ -1,6 +1,10 @@
 'use strict';
 
-require('dotenv').config();
+const {existsSync} = require('fs');
+
+if (existsSync('.env')) {
+	process.loadEnvFile();
+}
 
 const path = require('path');
 
@@ -11,8 +15,8 @@ module.exports = {
 		},
 
 		auth: {
-			login: process.env.LOGIN,
-			password: process.env.PASSWORD
+			login: process.env.BUTSA_LOGIN,
+			password: process.env.BUTSA_PASSWORD
 		},
 
 		team: {
